@@ -29,15 +29,23 @@ def home(request):
             'method_called': 'You called invalid method'
         })
     
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def post_todo(request):
     try:
         data = request.data
-        print(data)
+        serializer = TodoSerializer(data = data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'status' : True,
+                'message': 'valid or success data',
+                'data': serializer.data
+            })
         return Response({
-            'status' : True,
-            'message': 'success todo created!!!'
-    })
+                'status' : False,
+                'message': 'invalid data',
+                'data': serializer.errors
+        })
     except Exception as e:
         print (e)
         return Response({
