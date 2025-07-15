@@ -4,16 +4,11 @@ A simple RESTful API built using **Django** and **Django REST Framework (DRF)** 
 This project demonstrates how to implement basic CRUD (Create, Read, Update, Delete) operations for a Todo application with clean and structured API responses.
 
 ## 🚀 Features
-✅ CRUD Functionality
-Create, Read, Update, and Delete Todo items using RESTful endpoints.
-✅ DRF Serializers for Validation
-Ensures clean and validated input using Django REST Framework's powerful serializers.
-✅ Exception Handling
-Handles unexpected errors gracefully with clear and consistent error messages.
-✅ Structured JSON Responses
-All API responses follow a consistent JSON structure with status, message, and data.
-✅ Modular & Extensible Codebase
-Cleanly structured for easy maintenance and future enhancements.
+✅ CRUD Functionality: Create, Read, Update, and Delete Todo items using RESTful endpoints.
+✅ DRF Serializers for Validation: Ensures clean and validated input using Django REST Framework's powerful serializers.
+✅ Exception Handling: Handles unexpected errors gracefully with clear and consistent error messages.
+✅ Structured JSON Responses: All API responses follow a consistent JSON structure with status, message, and data.
+✅ Modular & Extensible Codebase: Cleanly structured for easy maintenance and future enhancements.
 
 ## 🧱 Tech Stack
 This project leverages the following technologies:
