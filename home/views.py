@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import TodoSerializer
+from .models import Todo
 
 @api_view(['GET', 'POST', 'PATCH'])
 def home(request):
@@ -28,7 +29,17 @@ def home(request):
             'message': 'Yes! Django rest framework is working !!!',
             'method_called': 'You called invalid method'
         })
-    
+@api_view(['GET'])
+def get_todo(request):
+    todo_objs = Todo.objects.all()
+    serializer = TodoSerializer(todo_objs, many = True)
+
+    return Response({
+                'status' : True,
+                'message': 'Todo fetched',
+                'data': serializer.data
+            })
+
 @api_view(['POST'])
 def post_todo(request):
     try:
