@@ -19,11 +19,12 @@ This project leverages the following technologies:
 
 - [![Python](https://img.shields.io/badge/Python-3.10.9%2B-blue?logo=python)](https://www.python.org/)
 - [![Django](https://img.shields.io/badge/Django-5.2.4%2B-green?logo=django)](https://www.djangoproject.com/)
-- [![Django Rest Framework](https://img.shields.io/badge/DRF-3.16.0-red?logo=django)](https://www.django-rest-framework.org/)
+- [![DRF](https://img.shields.io/badge/DRF-3.16.0-red?logo=django)](https://www.django-rest-framework.org/)
 
 
 ## 📂 Project Structure
 
+```text
 todo_project/
 ├── manage.py               # Django management script
 ├── requirements.txt        # Python dependencies
@@ -39,7 +40,50 @@ todo_project/
     ├── views.py            # API views (function/class-based)
     ├── urls.py             # App-level routing
     └── admin.py            # Admin site configuration
+```
+## 🔧 Setup Instructions
 
+Follow these steps to set up the project on your local machine:
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/todo-api.git
+cd todo-api
+```
+### 2. Create and Activate a Virtual Environment
+
+<details>
+<summary><strong>macOS / Linux</strong></summary>
+    
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+</details> 
+
+<details> 
+<summary><strong>Windows</strong></summary>
+    
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+</details>
+
+### 3. Install Project Dependencies
+```bash
+pip install -r requirements.txt
+```
+### 4. Apply Database Migrations
+```bash
+python manage.py migrate
+```
+### 5. Start the Development Server
+```bash
+python manage.py runserver
+```
+Once the server is running, visit http://localhost:8000 to access the API.
 
 
 
