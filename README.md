@@ -1,7 +1,9 @@
-# 📝 Django REST Framework Todo API
+<h1 align="center">📝 Django REST Framework Todo API</h1>
 
+<div align="justify">
 A simple RESTful API built using **Django** and **Django REST Framework (DRF)** for managing a list of Todo items.  
 This project demonstrates how to implement basic CRUD (Create, Read, Update, Delete) operations for a Todo application with clean and structured API responses.
+</div>
 
 ## 🚀 Features
 ✅ CRUD Functionality: Create, Read, Update, and Delete Todo items using RESTful endpoints.
