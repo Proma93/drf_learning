@@ -28,7 +28,7 @@ This project demonstrates how to implement basic CRUD (Create, Read, Update, Del
 
 ---
 
-## 🧱 Tech Stack
+## Tech Stack
 This project leverages the following technologies:
 
 - [![Python](https://img.shields.io/badge/Python-3.10.9%2B-blue?logo=python)](https://www.python.org/)
@@ -37,7 +37,7 @@ This project leverages the following technologies:
 
 ---
 
-## 🔧 Setup Instructions
+## Setup Instructions
 
 Follow these steps to set up the project on your local machine:
 
@@ -91,7 +91,7 @@ Once the server is running, visit http://localhost:8000 to access the API.
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 drf_learning/
@@ -113,7 +113,7 @@ drf_learning/
 
 ---
 
-## 🧾 Model: `Todo`
+## Model: `Todo`
 
 | Field             | Type      | Description                       |
 |-------------------|-----------|-----------------------------------|
@@ -126,7 +126,7 @@ drf_learning/
 
 ---
 
-## 📌 API Endpoints
+## API Endpoints
 
 ### 🏠 Home Test Endpoint
 
@@ -238,7 +238,7 @@ drf_learning/
 ```
 ---
 
-## 🧪 API Testing
+## API Testing
 
 You can test the API endpoints using:
 
@@ -248,7 +248,7 @@ You can test the API endpoints using:
 
 ---
 
-## 🧪 API Testing with Postman
+## API Testing with Postman
 
 You can test the `/post-todo/` endpoint using **Postman** by following the steps below:
 
