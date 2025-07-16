@@ -10,12 +10,12 @@ This project demonstrates how to implement basic CRUD (Create, Read, Update, Del
 ## 📚 Table of Contents
 
 - [Features](#features)
-- [Tech Stack](#-tech-stack)
-- [Setup Instructions](#-setup-instructions)
-- [Project Structure](#-project-structure)
-- [Model: Todo](#-model-todo)
-- [API Endpoints](#-api-endpoints)
-- [API Testing with Postman](#-api-testing-with-postman)
+- [Tech Stack](#tech-stack)
+- [Setup Instructions](#setup-instructions)
+- [Project Structure](#project-structure)
+- [Model: Todo](#model-todo)
+- [API Endpoints](#api-endpoints)
+- [API Testing with Postman](#api-testing-with-postman)
 
 ---
 ## Features
