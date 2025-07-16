@@ -68,8 +68,7 @@ def post_todo(request):
 def patch_todo(request, uid):
     try:
         obj = Todo.objects.get(uid=uid)
-        serializer = TodoSerializer(obj, data=request.data, partial=True)
-        
+        serializer = TodoSerializer(obj, data=request.data, partial=True)      
         if serializer.is_valid():
             serializer.save()
             return Response({
