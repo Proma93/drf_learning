@@ -18,7 +18,7 @@ This project demonstrates how to implement basic CRUD (Create, Read, Update, Del
 - [API Testing with Postman](#-api-testing-with-postman)
 
 ---
-## 🚀 Features
+## Features
 
 - **CRUD Functionality**: Create, Read, Update, and Delete Todo items using RESTful endpoints.
 - **DRF Serializers for Validation**: Ensures clean and validated input using Django REST Framework's powerful serializers.
