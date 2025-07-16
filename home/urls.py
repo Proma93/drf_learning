@@ -5,5 +5,5 @@ urlpatterns = [
     path('', home, name='home'),
     path('get-todo/', get_todo, name='get_todo'),
     path('post-todo/', post_todo, name='post_todo'),
-    path('patch-todo/', patch_todo, name='patch_todo'),
+    path('patch-todo/<uuid:uid>/', patch_todo, name='patch_todo'),
 ]
