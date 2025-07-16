@@ -1,13 +1,19 @@
+from django.template.defaultfilters import slugify
 from rest_framework import serializers
 from .models import Todo
 import re
 
 class TodoSerializer(serializers.ModelSerializer):
+    slug = serializers.SerializerMethodField()
+
     class Meta:
         model = Todo
-        fields = ['uid', 'todo_title', 'todo_description', 'is_done'] # includes some necessary model fields: title, description etc that is required by client or developer.
+        fields = ['uid', 'todo_title', 'slug', 'todo_description', 'is_done'] # includes some necessary model fields: title, description etc that is required by client or developer.
 #       exclude = ['created_at'] #when you have more fields supose 100 and one field don't want to show but others want to show than have to use exclude just to write which fields you don't want to show.
 #       fields = '__all__'  # includes all model fields: uid, title, etc.
+
+    def get_slug(self, obj):
+        return slugify(obj.todo_title) # can return anything like a name "proma" or none.
 
     def validate_todo_title(self, data):
         # Check if value exists (can skip this; DRF already handles required=True)
