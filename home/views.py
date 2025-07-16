@@ -65,23 +65,16 @@ def post_todo(request):
         })
 
 @api_view(['PATCH'])
-def patch_todo(request):
+def patch_todo(request, uid):
     try:
-        data = request.data
-        if not data.get('uid'):
-            return Response({
-                'status': False,
-                'message': 'uid is required',
-                'data': {}
-            })   
+        obj = Todo.objects.get(uid=uid)
+        serializer = TodoSerializer(obj, data=request.data, partial=True)
         
-        obj = Todo.objects.get(uid = data.get('uid'))
-        serializer = TodoSerializer(obj, data = data, partial = True)
         if serializer.is_valid():
             serializer.save()
             return Response({
                 'status': True,
-                'message': 'Todo updated succesfully',
+                'message': 'Todo updated successfully',
                 'data': serializer.data
             })
 
@@ -101,6 +94,6 @@ def patch_todo(request):
         print(e)
         return Response({
             'status': False,
-            'message': 'Invalid uid',
+            'message': 'Something went wrong',
             'data': {}
         })
