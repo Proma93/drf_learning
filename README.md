@@ -252,7 +252,7 @@ You can test the API endpoints using:
 
 You can test the `/post-todo/` endpoint using **Postman** by following the steps below:
 
-### 🔧 Request Configuration
+#### 🔧 Request Configuration
 
 - **Method:** `POST`  
 - **URL:** `http://127.0.0.1:8000/post-todo/`  
@@ -260,7 +260,7 @@ You can test the `/post-todo/` endpoint using **Postman** by following the steps
   ```http
   Content-Type: application/json
 
-### 📦 Request Body
+#### 📦 Request Body
 
 Set the body to raw and choose JSON as the format. Then paste the following payload:
 
@@ -272,7 +272,7 @@ Set the body to raw and choose JSON as the format. Then paste the following payl
 }
 ```
 
-### ▶️ Sending the Request
+#### ▶️ Sending the Request
 
 Once you've configured everything:
 
