@@ -96,7 +96,7 @@ Once the server is running, visit http://localhost:8000 to access the API.
 ```text
 drf_learning/
 ├── manage.py               # Django management script
-├── env               # Python virtual environments
+├── env                     # Python virtual environments
 ├── requirements.txt        # Python dependencies
 ├── .gitignore              # Specifies intentionally untracked files to ignore
 ├── drfproject/             # Django project configuration
