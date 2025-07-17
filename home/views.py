@@ -12,26 +12,21 @@ class HomeView(APIView):
     Handle GET, POST, PATCH on home endpoint.
     """
 
-    def get(self, request):
+    def _build_response(self, method: str):
         return Response({
             'status': status.HTTP_200_OK,
-            'message': 'Yes! Django rest framework is working !!!',
-            'method_called': 'You called GET method'
+            'message': 'Yes! Django REST Framework is working!',
+            'method_called': f'You called {method.upper()} method'
         }, status=status.HTTP_200_OK)
+
+    def get(self, request):
+        return self._build_response('GET')
 
     def post(self, request):
-        return Response({
-            'status': status.HTTP_200_OK,
-            'message': 'Yes! Django rest framework is working !!!',
-            'method_called': 'You called POST method'
-        }, status=status.HTTP_200_OK)
+        return self._build_response('POST')
 
     def patch(self, request):
-        return Response({
-            'status': status.HTTP_200_OK,
-            'message': 'Yes! Django rest framework is working !!!',
-            'method_called': 'You called PATCH method'
-        }, status=status.HTTP_200_OK)
+        return self._build_response('PATCH')
 
 
 class TodoListCreateView(APIView):
