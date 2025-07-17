@@ -3,9 +3,58 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .serializers import TodoSerializer
-from rest_framework import status
-from .models import Todo
+from .serializers import TodoSerializer, TimingTodoSerializer
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from .models import Todo, TimingTodo
+
+class TodoModelViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing Todo instances.
+    """
+    queryset = Todo.objects.all()
+    serializer_class = TodoSerializer
+    lookup_field = 'uid'  # Important: use 'uid' (UUIDField) instead of default 'pk'
+
+    @action(detail=True, methods=['get'])
+    def timings(self, request, uid=None):
+        """
+        GET /todos/{uid}/timings/
+        List all TimingTodos associated with a specific Todo.
+        """
+        todo = self.get_object()
+        timings = TimingTodo.objects.filter(todo=todo)
+        serializer = TimingTodoSerializer(timings, many=True)
+        return Response({
+            'status': True,
+            'message': f'Timing entries for Todo: {todo.todo_title}',
+            'data': serializer.data
+        }, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['post'])
+    def add_timing(self, request, uid=None):
+        """
+        POST /todos/{uid}/add_timing/
+        Create a TimingTodo for a specific Todo.
+        """
+        todo = self.get_object()
+        data = request.data.copy()
+        data['todo'] = str(todo.uid)
+
+        serializer = TimingTodoSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'status': True,
+                'message': 'TimingTodo created successfully',
+                'data': serializer.data
+            }, status=status.HTTP_201_CREATED)
+
+        return Response({
+            'status': False,
+            'message': 'Failed to create TimingTodo',
+            'errors': serializer.errors
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 class HomeView(APIView):
     """
