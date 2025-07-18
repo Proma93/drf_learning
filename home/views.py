@@ -1,13 +1,16 @@
 from .serializers import TodoSerializer, TimingTodoSerializer
-from rest_framework.authentication import TokenAuthentication
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import api_view
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 from rest_framework.views import APIView
 from .models import Todo, TimingTodo
+
+class CustomPagination(LimitOffsetPagination):
+    default_limit = 5
+    max_limit = 100
 
 class TodoModelViewSet(viewsets.ModelViewSet):
     """
@@ -15,11 +18,10 @@ class TodoModelViewSet(viewsets.ModelViewSet):
     """
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
+    pagination_class = CustomPagination
     lookup_field = 'uid'  # Important: use 'uid' (UUIDField) instead of default 'pk'
-
-    # Add authentication and permission classes here
-    permission_classes = [IsAuthenticated]    
-
+    permission_classes = [IsAuthenticated]
+    
     @action(detail=True, methods=['get'])
     def timings(self, request, uid=None):
         """
@@ -59,84 +61,91 @@ class TodoModelViewSet(viewsets.ModelViewSet):
             'message': 'Failed to create TimingTodo',
             'errors': serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
+    
 
-class HomeView(APIView):
-    """
-    Handle GET, POST, PATCH on home endpoint.
-    """
-    permission_classes = [IsAuthenticated]
 
-    def _build_response(self, method: str):
-        return Response({
-            'status': status.HTTP_200_OK,
-            'message': 'Yes! Django REST Framework is working!',
-            'method_called': f'You called {method.upper()} method'
-        }, status=status.HTTP_200_OK)
 
-    def get(self, request):
-        return self._build_response('GET')
 
-    def post(self, request):
-        return self._build_response('POST')
 
-    def patch(self, request):
-        return self._build_response('PATCH')
+    
 
-class TodoListCreateView(APIView):
-    """
-    GET - List all Todos
-    POST - Create a new Todo
-    """
-    permission_classes = [IsAuthenticated]
+# class HomeView(APIView):
+#     """
+#     Handle GET, POST, PATCH on home endpoint.
+#     """
+#     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        todos = Todo.objects.all()
-        serializer = TodoSerializer(todos, many=True)
-        return Response({
-            'status': True,
-            'message': 'Todo fetched',
-            'data': serializer.data
-        }, status=status.HTTP_200_OK)
+#     def _build_response(self, method: str):
+#         return Response({
+#             'status': status.HTTP_200_OK,
+#             'message': 'Yes! Django REST Framework is working!',
+#             'method_called': f'You called {method.upper()} method'
+#         }, status=status.HTTP_200_OK)
 
-    def post(self, request):
-        serializer = TodoSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({
-                'status': True,
-                'message': 'Todo created successfully',
-                'data': serializer.data
-            }, status=status.HTTP_201_CREATED)
+#     def get(self, request):
+#         return self._build_response('GET')
 
-        return Response({
-            'status': False,
-            'message': 'Invalid data',
-            'errors': serializer.errors
-        }, status=status.HTTP_400_BAD_REQUEST)
+#     def post(self, request):
+#         return self._build_response('POST')
 
-class TodoUpdateView(APIView):
-    """
-    PATCH - Update a specific Todo identified by uid
-    """
-    permission_classes = [IsAuthenticated]
+#     def patch(self, request):
+#         return self._build_response('PATCH')
 
-    def patch(self, request, uid):
-        todo = get_object_or_404(Todo, uid=uid)
-        serializer = TodoSerializer(todo, data=request.data, partial=True)
+# class TodoListCreateView(APIView):
+#     """
+#     GET - List all Todos
+#     POST - Create a new Todo
+#     """
+#     permission_classes = [IsAuthenticated]
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response({
-                'status': True,
-                'message': 'Todo updated successfully',
-                'data': serializer.data
-            }, status=status.HTTP_200_OK)
+#     def get(self, request):
+#         todos = Todo.objects.all()
+#         serializer = TodoSerializer(todos, many=True)
+#         return Response({
+#             'status': True,
+#             'message': 'Todo fetched',
+#             'data': serializer.data
+#         }, status=status.HTTP_200_OK)
 
-        return Response({
-            'status': False,
-            'message': 'Invalid data',
-            'errors': serializer.errors
-        }, status=status.HTTP_400_BAD_REQUEST)
+#     def post(self, request):
+#         serializer = TodoSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response({
+#                 'status': True,
+#                 'message': 'Todo created successfully',
+#                 'data': serializer.data
+#             }, status=status.HTTP_201_CREATED)
+
+#         return Response({
+#             'status': False,
+#             'message': 'Invalid data',
+#             'errors': serializer.errors
+#         }, status=status.HTTP_400_BAD_REQUEST)
+
+# class TodoUpdateView(APIView):
+#     """
+#     PATCH - Update a specific Todo identified by uid
+#     """
+#     permission_classes = [IsAuthenticated]
+
+#     def patch(self, request, uid):
+#         todo = get_object_or_404(Todo, uid=uid)
+#         serializer = TodoSerializer(todo, data=request.data, partial=True)
+
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response({
+#                 'status': True,
+#                 'message': 'Todo updated successfully',
+#                 'data': serializer.data
+#             }, status=status.HTTP_200_OK)
+
+#         return Response({
+#             'status': False,
+#             'message': 'Invalid data',
+#             'errors': serializer.errors
+#         }, status=status.HTTP_400_BAD_REQUEST)
 
 
 #Function-based home view to handle GET, POST, PATCH on home endpoint.
