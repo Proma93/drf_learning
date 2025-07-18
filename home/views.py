@@ -1,6 +1,8 @@
 #from rest_framework.decorators import api_view
 
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from .serializers import TodoSerializer, TimingTodoSerializer
@@ -16,6 +18,10 @@ class TodoModelViewSet(viewsets.ModelViewSet):
     serializer_class = TodoSerializer
     lookup_field = 'uid'  # Important: use 'uid' (UUIDField) instead of default 'pk'
 
+    # Add authentication and permission classes here
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    
     @action(detail=True, methods=['get'])
     def timings(self, request, uid=None):
         """
@@ -61,6 +67,8 @@ class HomeView(APIView):
     Handle GET, POST, PATCH on home endpoint.
     """
 
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     def _build_response(self, method: str):
         return Response({
             'status': status.HTTP_200_OK,

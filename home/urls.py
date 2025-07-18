@@ -11,7 +11,7 @@ urlpatterns = [
 #    path('post-todo/', post_todo, name='post_todo'),
 #    path('patch-todo/<uuid:uid>/', patch_todo, name='patch_todo'),
 
-    path('todo/', HomeView.as_view(), name='home'),
+    path('', HomeView.as_view(), name='home'),
     path('todos/', TodoListCreateView.as_view(), name='todo-list-create'),
     path('todos/<uuid:uid>/', TodoUpdateView.as_view(), name='todo-update'),
 ]
