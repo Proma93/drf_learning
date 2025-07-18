@@ -1,4 +1,5 @@
 from django.template.defaultfilters import slugify
+from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import Todo, TimingTodo
 import re
