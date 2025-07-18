@@ -1,13 +1,12 @@
-#from rest_framework.decorators import api_view
-
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 from .serializers import TodoSerializer, TimingTodoSerializer
-from rest_framework import status, viewsets
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
+from rest_framework.decorators import api_view
 from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status, viewsets
+from rest_framework.views import APIView
 from .models import Todo, TimingTodo
 
 class TodoModelViewSet(viewsets.ModelViewSet):
@@ -19,13 +18,12 @@ class TodoModelViewSet(viewsets.ModelViewSet):
     lookup_field = 'uid'  # Important: use 'uid' (UUIDField) instead of default 'pk'
 
     # Add authentication and permission classes here
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-    
+    permission_classes = [IsAuthenticated]    
+
     @action(detail=True, methods=['get'])
     def timings(self, request, uid=None):
         """
-        GET /todos/{uid}/timings/
+        GET /todo-view-set/{uid}/timings/
         List all TimingTodos associated with a specific Todo.
         """
         todo = self.get_object()
@@ -37,10 +35,10 @@ class TodoModelViewSet(viewsets.ModelViewSet):
             'data': serializer.data
         }, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['get', 'post'])
     def add_timing(self, request, uid=None):
         """
-        POST /todos/{uid}/add_timing/
+        POST /todo-view-set/{uid}/add_timing/
         Create a TimingTodo for a specific Todo.
         """
         todo = self.get_object()
@@ -66,9 +64,8 @@ class HomeView(APIView):
     """
     Handle GET, POST, PATCH on home endpoint.
     """
-
-    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+
     def _build_response(self, method: str):
         return Response({
             'status': status.HTTP_200_OK,
@@ -85,12 +82,13 @@ class HomeView(APIView):
     def patch(self, request):
         return self._build_response('PATCH')
 
-
 class TodoListCreateView(APIView):
     """
     GET - List all Todos
     POST - Create a new Todo
     """
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         todos = Todo.objects.all()
         serializer = TodoSerializer(todos, many=True)
@@ -116,11 +114,11 @@ class TodoListCreateView(APIView):
             'errors': serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
 
-
 class TodoUpdateView(APIView):
     """
     PATCH - Update a specific Todo identified by uid
     """
+    permission_classes = [IsAuthenticated]
 
     def patch(self, request, uid):
         todo = get_object_or_404(Todo, uid=uid)
