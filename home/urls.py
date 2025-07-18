@@ -1,9 +1,9 @@
-from django.urls import path
-from .views import *
 from rest_framework.routers import DefaultRouter
+from django.urls import path, include
+from .views import *
 
 router = DefaultRouter()
-router.register(r'todo-view-set', TodoModelViewSet, basename='todo')
+router.register(r'', TodoModelViewSet, basename='todo')
 
 urlpatterns = [
 #    path('', home, name='home'),
@@ -12,8 +12,7 @@ urlpatterns = [
 #    path('patch-todo/<uuid:uid>/', patch_todo, name='patch_todo'),
 
     path('', HomeView.as_view(), name='home'),
+    path('modelviewset/', include(router.urls)),
     path('todos/', TodoListCreateView.as_view(), name='todo-list-create'),
     path('todos/<uuid:uid>/', TodoUpdateView.as_view(), name='todo-update'),
 ]
-
-urlpatterns = router.urls
