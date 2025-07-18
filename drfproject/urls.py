@@ -17,8 +17,10 @@ Including another URLconf
 # drfproject/urls.py
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
+    path('token/', obtain_auth_token, name='token'),
     path('', include('home.urls')),   # This includes the home app's URLs
     path('admin/', admin.site.urls),
 ]
