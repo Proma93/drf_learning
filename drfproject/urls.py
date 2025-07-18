@@ -15,9 +15,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # drfproject/urls.py
-from django.contrib import admin
-from django.urls import path, include
 from rest_framework.authtoken.views import obtain_auth_token
+from django.urls import path, include
+from django.contrib import admin
 
 urlpatterns = [
     path('token/', obtain_auth_token, name='token'),
