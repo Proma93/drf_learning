@@ -62,12 +62,31 @@ class TodoModelViewSet(viewsets.ModelViewSet):
             'errors': serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
     
+    @action(detail=True, methods=['get', 'delete'], url_path='timings/(?P<timing_uid>[^/.]+)')
+    def delete_or_show_timing(self, request, uid=None, timing_uid=None):
+        todo = self.get_object()
+        try:
+            timing = TimingTodo.objects.get(uid=timing_uid, todo=todo)
+        except TimingTodo.DoesNotExist:
+            return Response({
+                'status': False,
+                'message': 'TimingTodo not found.'
+            }, status=status.HTTP_404_NOT_FOUND)
 
-
-
-
-
-    
+        if request.method == 'DELETE':
+            timing.delete()
+            return Response({
+                'status': True,
+                'message': f'TimingTodo {timing_uid} deleted successfully.'
+            }, status=status.HTTP_204_NO_CONTENT)
+        
+        # If GET
+        serializer = TimingTodoSerializer(timing)
+        return Response({
+            'status': True,
+            'message': f'Detail of TimingTodo {timing_uid}',
+            'data': serializer.data
+        }, status=status.HTTP_200_OK)
 
 # class HomeView(APIView):
 #     """
