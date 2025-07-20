@@ -14,6 +14,5 @@ urlpatterns = [
 #    path('', HomeView.as_view(), name='home'),
 #    path('todos/', TodoListCreateView.as_view(), name='todo-list-create'),
 #    path('todos/<uuid:uid>/', TodoUpdateView.as_view(), name='todo-update'),
-
-    path('modelviewset/', include(router.urls)),
+    path('', include(router.urls)),
 ]
