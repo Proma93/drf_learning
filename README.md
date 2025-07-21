@@ -199,8 +199,8 @@ drf_learning/
 
 ## Authentication
 This project uses TokenAuthentication and SessionAuthentication methods to secure all API endpoints.
-- TokenAuthentication – for API clients and mobile apps
-- SessionAuthentication – for browser-based sessions (e.g., admin panel, DRF browsable API)
+> TokenAuthentication – for API clients and mobile apps
+> SessionAuthentication – for browser-based sessions (e.g., admin panel, DRF browsable API)
 
 ### Step-by-Step Setup
 #### 1️⃣ Install Required Packages
