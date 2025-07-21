@@ -3,7 +3,8 @@ from django.urls import path, include
 from .views import *
 
 router = DefaultRouter()
-router.register(r'', TodoModelViewSet, basename='todo')
+router.register(r'todos', TodoModelViewSet)
+router.register(r'timings', TimingsModelViewSet)
 
 urlpatterns = [
 #    path('', home, name='home'),
