@@ -16,6 +16,8 @@ It includes user authentication, permissions, filtering, search, ordering, throt
 - [Models](#models)
 - [API Endpoints](#api-endpoints)
 - [Authentication](#authentication)
+- [Permission Classes](#permission-classes)
+- [Throttling](#throttling)
 - [API Testing with Postman](#api-testing-with-postman)
 
 ---
@@ -197,7 +199,6 @@ drf_learning/
 
 ## Authentication
 This project uses TokenAuthentication and SessionAuthentication methods to secure all API endpoints.
-
 - TokenAuthentication – for API clients and mobile apps
 - SessionAuthentication – for browser-based sessions (e.g., admin panel, DRF browsable API)
 
@@ -322,6 +323,27 @@ from rest_framework.permissions import IsAuthenticated
 
 permission_classes = [IsAuthenticated]
 ```
+--- 
+
+## Throttling
+Rate limiting is applied to protect the API from abuse using:
+- AnonRateThrottle – for unauthenticated users
+- UserRateThrottle – for authenticated users
+
+```python
+REST_FRAMEWORK = {
+    ...
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '10/day',
+        'user': '1000/day',
+    },
+}
+```
+--- 
 
 ## API Testing
 
