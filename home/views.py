@@ -1,3 +1,4 @@
+import logging
 from .serializers import TodoSerializer, TimingTodoSerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
@@ -7,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets
 from rest_framework.views import APIView
 from .models import Todo, TimingTodo
+logger = logging.getLogger(__name__)
 
 class CustomPagination(LimitOffsetPagination):
     default_limit = 5
@@ -21,50 +23,51 @@ class TodoModelViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPagination
     lookup_field = 'uid'  # Important: use 'uid' (UUIDField) instead of default 'pk'
     permission_classes = [IsAuthenticated]
-    
-    @action(detail=True, methods=['get'])
-    def timings(self, request, uid=None):
-        """
-        GET /todo-view-set/{uid}/timings/
-        List all TimingTodos associated with a specific Todo.
-        """
-        todo = self.get_object()
-        timings = TimingTodo.objects.filter(todo=todo)
-        serializer = TimingTodoSerializer(timings, many=True)
-        return Response({
-            'status': True,
-            'message': f'Timing entries for Todo: {todo.todo_title}',
-            'data': serializer.data
-        }, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['get', 'post'])
-    def add_timing(self, request, uid=None):
+    @action(detail=True, methods=['get', 'post'], url_path='timings')
+    def handle_specific_todo_timings(self, request, uid=None):
         """
-        POST /todo-view-set/{uid}/add_timing/
+        POST /{uid}/timings/
         Create a TimingTodo for a specific Todo.
         """
         todo = self.get_object()
-        data = request.data.copy()
-        data['todo'] = str(todo.uid)
-
-        serializer = TimingTodoSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
+        if request.method == 'GET':
+            timing_todo = TimingTodo.objects.filter(todo=todo)
+            serializer = TimingTodoSerializer(timing_todo, many=True)
             return Response({
                 'status': True,
-                'message': 'TimingTodo created successfully',
+                'message': f'Detail of TimingTodo',
                 'data': serializer.data
-            }, status=status.HTTP_201_CREATED)
+            }, status=status.HTTP_200_OK)
 
-        return Response({
-            'status': False,
-            'message': 'Failed to create TimingTodo',
-            'errors': serializer.errors
-        }, status=status.HTTP_400_BAD_REQUEST)
+        elif request.method == 'POST':
+            data = request.data.copy()
+            data['todo'] = str(todo.uid)
+            serializer = TimingTodoSerializer(data=data)
+
+            if serializer.is_valid():
+                serializer.save()
+                return Response({
+                    'status': True,
+                    'message': 'TimingTodo created successfully',
+                    'data': serializer.data
+                }, status=status.HTTP_201_CREATED)
+
+            return Response({
+                'status': False,
+                'message': 'Failed to create TimingTodo',
+                'errors': serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
     
-    @action(detail=True, methods=['get', 'delete'], url_path='timings/(?P<timing_uid>[^/.]+)')
-    def delete_or_show_timing(self, request, uid=None, timing_uid=None):
+    @action(detail=True, methods=['get','patch', 'delete'], url_path='timings/(?P<timing_uid>[^/.]+)')
+    def manage_timing(self, request, uid=None, timing_uid=None):
+        """
+        GET: Retrieve a TimingTodo.
+        PATCH: Partially update a TimingTodo.
+        DELETE: Delete a TimingTodo.
+        """
         todo = self.get_object()
+
         try:
             timing = TimingTodo.objects.get(uid=timing_uid, todo=todo)
         except TimingTodo.DoesNotExist:
@@ -73,20 +76,44 @@ class TodoModelViewSet(viewsets.ModelViewSet):
                 'message': 'TimingTodo not found.'
             }, status=status.HTTP_404_NOT_FOUND)
 
-        if request.method == 'DELETE':
+        if request.method == 'GET':
+            serializer = TimingTodoSerializer(timing)
+            return Response({
+                'status': True,
+                'message': f'Detail of TimingTodo {timing_uid}',
+                'data': serializer.data
+            }, status=status.HTTP_200_OK)
+
+        elif request.method == 'PATCH':
+            serializer = TimingTodoSerializer(timing, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({
+                    'status': True,
+                    'message': f'TimingTodo {timing_uid} updated successfully.',
+                    'data': serializer.data
+                }, status=status.HTTP_200_OK)
+            return Response({
+                'status': False,
+                'errors': serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        elif request.method == 'DELETE':
             timing.delete()
             return Response({
                 'status': True,
                 'message': f'TimingTodo {timing_uid} deleted successfully.'
             }, status=status.HTTP_204_NO_CONTENT)
-        
-        # If GET
-        serializer = TimingTodoSerializer(timing)
-        return Response({
-            'status': True,
-            'message': f'Detail of TimingTodo {timing_uid}',
-            'data': serializer.data
-        }, status=status.HTTP_200_OK)
+
+class TimingsModelViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and editing Timings instances.
+    """
+    queryset = TimingTodo.objects.all()
+    serializer_class = TimingTodoSerializer
+    pagination_class = CustomPagination
+    lookup_field = 'uid'  # Important: use 'uid' (UUIDField) instead of default 'pk'
+    permission_classes = [IsAuthenticated]
 
 # class HomeView(APIView):
 #     """
