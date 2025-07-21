@@ -106,7 +106,7 @@ Once the server is running, visit http://localhost:8000 to access the API.
 POST /token/
 ```
 
-## 🔑 Authentication Example (Token-Based)
+#### 🔑 Authentication Example (Token-Based)
 Include the token in the Authorization header:
 ```http
 Authorization: Token your_token_here
@@ -264,7 +264,9 @@ urlpatterns = [
     path('api-token-auth/', obtain_auth_token),
 ]
 ```
+
 #### 🔑 Example Request:
+
 ```http
 POST /api-token-auth/
 Content-Type: application/json
@@ -292,10 +294,10 @@ Authorization: Token your_token_here
 ```
 #### 🔐 Example with Postman
 
-- Go to Authorization tab
-- Type: Token
-- Value: your_token_here
-- Header will be automatically added as:
+-Go to Authorization tab
+-Type: Token
+-Value: your_token_here
+-Header will be automatically added as:
 
 ```http
 Authorization: Token your_token_here
