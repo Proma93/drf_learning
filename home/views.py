@@ -1,12 +1,11 @@
 import logging
 from .serializers import TodoSerializer, TimingTodoSerializer
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
-from django.shortcuts import get_object_or_404
+from rest_framework import status, viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework import status, viewsets
-from rest_framework.views import APIView
 from .models import Todo, TimingTodo
 logger = logging.getLogger(__name__)
 
@@ -23,6 +22,15 @@ class TodoModelViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPagination
     lookup_field = 'uid'  # Important: use 'uid' (UUIDField) instead of default 'pk'
     permission_classes = [IsAuthenticated]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter, 
+        filters.OrderingFilter
+    ]
+    filterset_fields = ['is_done']
+    search_fields = ['todo_title', 'todo_description']
+    ordering_fields = ['created_at', 'todo_title']
+    ordering = ['created_at']
 
     @action(detail=True, methods=['get', 'post'], url_path='timings')
     def handle_specific_todo_timings(self, request, uid=None):
@@ -114,6 +122,20 @@ class TimingsModelViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPagination
     lookup_field = 'uid'  # Important: use 'uid' (UUIDField) instead of default 'pk'
     permission_classes = [IsAuthenticated]
+    filter_backends = [
+        DjangoFilterBackend, 
+        filters.SearchFilter, 
+        filters.OrderingFilter
+    ]
+
+    # Exact match filtering
+    filterset_fields = ['schedule_date']
+
+    # Search across text fields
+    search_fields = ['note']
+
+    # Allow ordering
+    ordering_fields = ['schedule_date']
 
 # class HomeView(APIView):
 #     """
