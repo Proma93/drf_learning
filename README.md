@@ -263,7 +263,7 @@ urlpatterns = [
     path('api-token-auth/', obtain_auth_token),
 ]
 ```
-🔑 Example Request:
+#### 🔑 Example Request:
 ```http
 POST /api-token-auth/
 Content-Type: application/json
@@ -275,7 +275,7 @@ Content-Type: application/json
 }
 
 ```
-🔑 Example Request:
+#### 🔑 Example Request:
 
 ```json
 {
@@ -289,7 +289,7 @@ Send the token in the Authorization header for all API requests.
 ```http
 Authorization: Token your_token_here
 ```
-🔐 Example with Postman
+#### 🔐 Example with Postman
 
 - Go to Authorization tab
 - Type: Token
