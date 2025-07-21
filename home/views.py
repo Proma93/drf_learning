@@ -2,7 +2,6 @@ import logging
 from .serializers import TodoSerializer, TimingTodoSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.permissions import IsAuthenticated
 from rest_framework import status, viewsets, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -21,7 +20,6 @@ class TodoModelViewSet(viewsets.ModelViewSet):
     serializer_class = TodoSerializer
     pagination_class = CustomPagination
     lookup_field = 'uid'  # Important: use 'uid' (UUIDField) instead of default 'pk'
-    permission_classes = [IsAuthenticated]
     filter_backends = [
         DjangoFilterBackend,
         filters.SearchFilter, 
@@ -121,7 +119,6 @@ class TimingsModelViewSet(viewsets.ModelViewSet):
     serializer_class = TimingTodoSerializer
     pagination_class = CustomPagination
     lookup_field = 'uid'  # Important: use 'uid' (UUIDField) instead of default 'pk'
-    permission_classes = [IsAuthenticated]
     filter_backends = [
         DjangoFilterBackend, 
         filters.SearchFilter, 
