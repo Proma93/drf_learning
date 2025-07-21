@@ -15,6 +15,7 @@ It includes user authentication, permissions, filtering, search, ordering, throt
 - [Project Structure](#project-structure)
 - [Models](#models)
 - [API Endpoints](#api-endpoints)
+- [Authentication](#authentication)
 - [API Testing with Postman](#api-testing-with-postman)
 
 ---
