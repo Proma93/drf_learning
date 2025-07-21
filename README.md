@@ -1,8 +1,8 @@
-<h1 align="center">📝 Django REST Framework Todo API</h1>
+<h1 align="center">📝 Todo API with DRF (ModelViewSet + Throttling + Filtering + Token Auth) </h1>
 
 <div align="justify">
-A simple RESTful API built using Django and Django REST Framework (DRF) for managing a list of Todo items.  
-This project demonstrates how to implement basic CRUD (Create, Read, Update, Delete) operations for a Todo application with clean and structured API responses.
+This project is a fully featured Django REST Framework based API for managing Todo tasks and their associated timings.
+It includes user authentication, permissions, filtering, search, ordering, throttling, and custom pagination.
 </div>
 
 ---
@@ -13,18 +13,20 @@ This project demonstrates how to implement basic CRUD (Create, Read, Update, Del
 - [Tech Stack](#tech-stack)
 - [Setup Instructions](#setup-instructions)
 - [Project Structure](#project-structure)
-- [Model: Todo](#model-todo)
+- [Models](#models)
 - [API Endpoints](#api-endpoints)
 - [API Testing with Postman](#api-testing-with-postman)
 
 ---
 ## Features
 
-- **CRUD Functionality**: Create, Read, Update, and Delete Todo items using RESTful endpoints.
-- **DRF Serializers for Validation**: Ensures clean and validated input using Django REST Framework's powerful serializers.
-- **Exception Handling**: Handles unexpected errors gracefully with clear and consistent error messages.
-- **Structured JSON Responses**: All API responses follow a consistent JSON structure with `status`, `message`, and `data` keys.
-- **Modular & Extensible Codebase**: Cleanly structured for easy maintenance and future enhancements.
+- CRUD operations for Todo and TimingTodo
+- Authentication: Token and Session Authentication
+- Permissions: Only authenticated users can access the API
+- Throttling: Configured for both anonymous and authenticated users
+- Custom Pagination with limit-offset
+- DjangoFilterBackend and DRF's SearchFilter & OrderingFilter
+- Nested endpoint for creating and managing TimingTodo for a specific Todo
 
 ---
 
@@ -34,6 +36,8 @@ This project leverages the following technologies:
 - [![Python](https://img.shields.io/badge/Python-3.10.9%2B-blue?logo=python)](https://www.python.org/)
 - [![Django](https://img.shields.io/badge/Django-5.2.4%2B-green?logo=django)](https://www.djangoproject.com/)
 - [![DRF](https://img.shields.io/badge/DRF-3.16.0-red?logo=django)](https://www.django-rest-framework.org/)
+- Django PostgreSQL / SQLite
+- Django Filter
 
 ---
 
@@ -44,8 +48,8 @@ Follow these steps to set up the project on your local machine:
 #### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/drf_learning.git
-cd drf_learning
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
 ```
 #### 2. Create and Activate a Virtual Environment
 
@@ -83,12 +87,29 @@ pip install django djangorestframework
 ```bash
 python manage.py migrate
 ```
-#### 5. Start the Development Server
+
+#### 5. Create a superuser:
+
+```bash
+python manage.py createsuperuser
+```
+
+#### 6. Start the Development Server
 ```bash
 python manage.py runserver
 ```
 Once the server is running, visit http://localhost:8000 to access the API.
 
+#### 7. Obtain Auth Token (after logging in):
+```http
+POST /token/
+```
+
+## 🔑 Authentication Example (Token-Based)
+Include the token in the Authorization header:
+```http
+Authorization: Token your_token_here
+```
 ---
 
 ## Project Structure
@@ -115,129 +136,62 @@ drf_learning/
 
 ---
 
-## Model: `Todo`
+## Models 
+#### `Todo`
 
 | Field             | Type      | Description                       |
 |-------------------|-----------|-----------------------------------|
 | `uid`             | UUID      | Unique identifier (primary key)   |
+| `user`            | FK        | Linked authenticated user         |
 | `todo_title`      | CharField | Short title of the task           |
 | `todo_description`| TextField | Detailed description              |
 | `is_done`         | Boolean   | Completion status (default: False)|
 | `created_at`      | Date      | Auto-updated on creation          |
 | `updated_at`      | Date      | Auto-updated on each save         |
 
+#### `TimingTodo`
+
+| Field           | Type      | Description                |
+| --------------- | --------- | -------------------------- |
+| `uid`           | UUID      | Unique ID for timing entry |
+| `todo`          | FK        | Related `Todo`             |
+| `schedule_date` | Date      | Date the task is scheduled |
+| `start_time`    | Time      | Optional start time        |
+| `end_time`      | Time      | Optional end time          |
+| `note`          | TextField | Additional notes           |
+
 ---
 
 ## API Endpoints
 
-### 🏠 Home Test Endpoint
+#### 📌 Todo Endpoints
 
-**URL**: `/home/`  
-**Methods**: `GET`, `POST`, `PATCH`
+| Method | Endpoint        | Description              |
+| ------ | --------------- | ------------------------ |
+| GET    | `/todos/`       | List all todos           |
+| POST   | `/todos/`       | Create a new todo        |
+| GET    | `/todos/{uid}/` | Retrieve a specific todo |
+| PATCH  | `/todos/{uid}/` | Partially update a todo  |
+| DELETE | `/todos/{uid}/` | Delete a todo            |
 
-| Method | Description          |
-|--------|----------------------|
-| GET    | Test endpoint        |
-| POST   | Test POST method     |
-| PATCH  | Test PATCH method    |
 
-### 📥 Create Todo
+#### 🕒 Nested TimingTodo under Todo
 
-**URL**: `/post-todo/`  
-**Method**: `POST`  
-**Description**: Create a new todo item.
+| Method | Endpoint                      | Description                        |
+| ------ | ----------------------------- | ---------------------------------- |
+| GET    | `/todos/{uid}/timings/`       | List timings of a specific todo    |
+| POST   | `/todos/{uid}/timings/`       | Add a timing to a specific todo    |
+| GET    | `/todos/{uid}/timings/{tid}/` | Retrieve specific timing           |
+| PATCH  | `/todos/{uid}/timings/{tid}/` | Partially update a specific timing |
+| DELETE | `/todos/{uid}/timings/{tid}/` | Delete a specific timing           |
 
-#### ✅ Request Example:
+#### 🔄 All TimingTodo Endpoints
 
-```json
-{
-  "todo_title": "Finish DRF Guide",
-  "todo_description": "Write a README and document all API endpoints.",
-  "is_done": false
-}
-```
-#### ✅ Success Response:
+| Method | Endpoint    | Description               |
+| ------ | ----------- | ------------------------- |
+| GET    | `/timings/` | List all timing entries   |
+| POST   | `/timings/` | Create a new timing entry |
 
-```json
-{
-  "status": true,
-  "message": "valid or success data",
-  "data": {
-    "uid": "uuid-value",
-    "todo_title": "Finish DRF Guide",
-    "todo_description": "Write a README and document all API endpoints.",
-    "is_done": false,
-    "created_at": "2025-07-16",
-    "updated_at": "2025-07-16"
-  }
-}
-```
-
-### 📥 Get All Todos
-
-**URL**: `/get-todo/`  
-**Method**: `GET`  
-**Description**: Fetch all todo entries.
-
-#### ✅ Example Response:
-
-```json
-{
-  "status": true,
-  "message": "Todo fetched",
-  "data": [
-    {
-      "uid": "uuid-value",
-      "todo_title": "Example Todo",
-      "todo_description": "Sample description",
-      "is_done": false,
-      "created_at": "2025-07-16",
-      "updated_at": "2025-07-16"
-    },
-    ...
-  ]
-}
-```
-
-### ✏️ Update Todo
-
-**URL**: `/patch-todo/<uid>/`  
-**Method**: `PATCH`  
-**Description**: Partially update a todo item.
-
-#### ✅ Request Example:
-
-```json
-{
-  "is_done": true
-}
-```
-
-#### ✅ Success Response:
-
-```json
-{
-  "status": true,
-  "message": "Todo updated successfully",
-  "data": {
-    "uid": "uuid-value",
-    "todo_title": "Example Todo",
-    "todo_description": "Sample description",
-    "is_done": true,
-    "created_at": "2025-07-16",
-    "updated_at": "2025-07-16"
-  }
-}
-```
-
-#### ❌ Not Found Response:
-
-```json
-{
-  "status": false,
-  "message": "Todo not found"
-}
-```
 ---
 
 ## API Testing
