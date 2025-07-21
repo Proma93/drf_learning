@@ -194,6 +194,113 @@ drf_learning/
 
 ---
 
+## Authentication
+This project uses TokenAuthentication and SessionAuthentication methods to secure all API endpoints.
+
+- TokenAuthentication – for API clients and mobile apps
+- SessionAuthentication – for browser-based sessions (e.g., admin panel, DRF browsable API)
+
+### 🧰 Step-by-Step Setup
+#### 1️⃣ Install Required Packages
+If not already installed, install Django REST Framework and Token Authentication:
+
+```bash
+pip install djangorestframework
+```
+<details>
+<summary><strong>Optionally</strong></summary>
+    
+```bash
+pip install djangorestframework-authtoken
+```
+</details>  
+
+#### 2️⃣ Update INSTALLED_APPS
+Add the following apps in drfproject/settings.py:
+
+```python
+INSTALLED_APPS = [
+    ...
+    'rest_framework',
+    'rest_framework.authtoken',
+]
+```
+#### 3️⃣ Configure DRF Authentication Classes
+Update your REST_FRAMEWORK config in drfproject/settings.py:
+
+```python
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+```
+#### 4️⃣ Apply Migrations
+Run the following command to create the necessary tables for token authentication:
+```bash
+python manage.py migrate
+```
+
+#### 5️⃣ Create a Superuser (Optional but recommended)
+
+```bash
+python manage.py createsuperuser
+```
+This account can be used to generate tokens and access the browsable API.
+
+#### 6️⃣ Generate Authentication Token for a User
+You can generate a token for a specific user using DRF's built.in Auth Endpoint.
+Enable the default token endpoint by adding this to your project-level urls.py (usually drfproject/urls.py):
+```python
+from rest_framework.authtoken.views import obtain_auth_token
+
+urlpatterns = [
+    ...
+    path('api-token-auth/', obtain_auth_token),
+]
+```
+🔑 Example Request:
+```http
+POST /api-token-auth/
+Content-Type: application/json
+```
+```json
+{
+  "username": "your_username",
+  "password": "your_password"
+}
+
+```
+🔑 Example Request:
+
+```json
+{
+  "token": "2a376d4a5b2e..." 
+}
+
+```
+#### 7️⃣ Use Token in API Requests
+Send the token in the Authorization header for all API requests.
+
+```http
+Authorization: Token your_token_here
+```
+🔐 Example with Postman
+
+- Go to Authorization tab
+- Type: Token
+- Value: your_token_here
+- Header will be automatically added as:
+
+```http
+Authorization: Token your_token_here
+```
+
+---
 ## API Testing
 
 You can test the API endpoints using:
