@@ -1,8 +1,7 @@
 <h1 align="center">📝 Todo API with DRF (ModelViewSet + Throttling + Filtering + Token Auth) </h1>
 
 <div align="justify">
-This project is a fully featured Django REST Framework based API for managing Todo tasks and their associated timings.
-It includes user authentication, permissions, filtering, search, ordering, throttling, and custom pagination.
+Built a fully-featured RESTful API using Django REST Framework (DRF) with support for CRUD operations on todo tasks and their related timings. Implemented robust features including token-based authentication, user permissions, request throttling, filtering, search, ordering, and custom pagination. Leveraged ModelViewSet, DjangoFilterBackend, and nested serializers to ensure a clean, extensible, and secure API design.
 </div>
 
 ---
