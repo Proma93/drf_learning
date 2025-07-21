@@ -18,7 +18,8 @@ It includes user authentication, permissions, filtering, search, ordering, throt
 - [Authentication](#authentication)
 - [Permission Classes](#permission-classes)
 - [Throttling](#throttling)
-- [API Testing with Postman](#api-testing-with-postman)
+- [Filtering, Search, and Ordering](#filtering-search-and-ordering)
+- [API Testing](#api-testing)
 
 ---
 ## Features
@@ -202,7 +203,7 @@ This project uses TokenAuthentication and SessionAuthentication methods to secur
 - TokenAuthentication – for API clients and mobile apps
 - SessionAuthentication – for browser-based sessions (e.g., admin panel, DRF browsable API)
 
-### 🧰 Step-by-Step Setup
+### Step-by-Step Setup
 #### 1️⃣ Install Required Packages
 If not already installed, install Django REST Framework and Token Authentication:
 
@@ -235,10 +236,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-    ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
+    ]
 }
 ```
 #### 4️⃣ Apply Migrations
@@ -279,7 +277,7 @@ Content-Type: application/json
 }
 
 ```
-#### 🔑 Example Request:
+#### 🔑 Example Response:
 
 ```json
 {
@@ -329,6 +327,8 @@ permission_classes = [IsAuthenticated]
 Rate limiting is applied to protect the API from abuse using:
 - AnonRateThrottle – for unauthenticated users
 - UserRateThrottle – for authenticated users
+#### Configuration in settings.py
+
 
 ```python
 REST_FRAMEWORK = {
@@ -345,6 +345,61 @@ REST_FRAMEWORK = {
 ```
 --- 
 
+## Filtering, Search, and Ordering
+This API supports powerful data querying features including:
+
+- Field-based filtering (DjangoFilterBackend)
+- Search across fields (SearchFilter)
+- Ordering results (OrderingFilter)
+
+#### Configuration in settings.py
+
+```python
+REST_FRAMEWORK = {
+    ...
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+}
+```
+
+#### Usage in Views
+
+```python
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+
+filter_backends = [
+    DjangoFilterBackend,
+    filters.SearchFilter,
+    filters.OrderingFilter,
+]
+
+filterset_fields = ['is_done']
+search_fields = ['todo_title', 'todo_description']
+ordering_fields = ['created_at', 'todo_title']
+ordering = ['created_at']
+```
+
+#### Example API Queries
+🔹 Filter by completion
+
+```http
+GET /todos/?is_done=true
+```
+🔹 Search in title or description
+
+```http
+GET /todos/?search=test
+```
+🔹 Order by title
+
+```http
+GET /todos/?ordering=todo_title
+```
+
 ## API Testing
 
 You can test the API endpoints using:
@@ -353,39 +408,44 @@ You can test the API endpoints using:
 - **cURL**  
 - **Django Browsable API** at [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
----
+#### API Testing with Postman
+POST /todos/
 
-## API Testing with Postman
+🔹 Headers:
 
-You can test the `/post-todo/` endpoint using **Postman** by following the steps below:
+```http
+Content-Type: application/json
+Authorization: Token your_token_here
+```
 
-#### 🔧 Request Configuration
-
-- **Method:** `POST`  
-- **URL:** `http://127.0.0.1:8000/post-todo/`  
-- **Headers:**
-  ```http
-  Content-Type: application/json
-
-#### 📦 Request Body
-
-Set the body to raw and choose JSON as the format. Then paste the following payload:
+🔹 Body:
 
 ```json
 {
   "todo_title": "Learn DRF",
-  "todo_description": "Study API views and serializers",
+  "todo_description": "Practice ViewSets and Throttling",
   "is_done": false
 }
+
+```
+🔹 Response:
+
+```json
+{
+  "status": true,
+  "message": "Todo created successfully",
+  "data": {
+    "uid": "uuid-value",
+    "todo_title": "Learn DRF",
+    "todo_description": "Practice ViewSets and Throttling",
+    "is_done": false,
+    ...
+  }
+}
+
+
 ```
 
-#### ▶️ Sending the Request
-
-Once you've configured everything:
-
-- Click Send.
-
-- You should receive a JSON response indicating the todo was successfully created.
 
 ---
 
