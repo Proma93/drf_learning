@@ -294,16 +294,35 @@ Authorization: Token your_token_here
 ```
 #### 🔐 Example with Postman
 
--Go to Authorization tab
--Type: Token
--Value: your_token_here
--Header will be automatically added as:
+- Go to Authorization tab
+- Type: Token
+- Value: your_token_here
+- Header will be automatically added as:
 
 ```http
 Authorization: Token your_token_here
 ```
-
 ---
+
+## Permission Classes
+All views use the IsAuthenticated permission class to restrict access to logged-in users only.
+
+#### Configuration in settings.py
+
+```python
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+```
+You can also apply permissions at the view level using:
+```python
+from rest_framework.permissions import IsAuthenticated
+
+permission_classes = [IsAuthenticated]
+```
+
 ## API Testing
 
 You can test the API endpoints using:
