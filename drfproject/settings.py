@@ -166,7 +166,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
         'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
         'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
@@ -179,6 +179,9 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_THROTTLE_RATES': {
         'user': '1000/day',
-        'anon': '10/hour'
+        'anon': '50/hour'
     }, 
 }
+
+# Optional: Make sessions expire when the browser closes (for anonymous users)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
