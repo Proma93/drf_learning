@@ -1,7 +1,7 @@
 <h1 align="center">📝 Task Management API using Django REST Framework </h1>
 
 <div align="justify">
-Built a fully-featured RESTful API using Django REST Framework (DRF) with support for CRUD operations on todo tasks and their related timings. Implemented robust features including token-based authentication, user permissions, request throttling, filtering, search, ordering, and custom pagination. Leveraged ModelViewSet, DjangoFilterBackend, and nested serializers to ensure a clean, extensible, and secure API design.
+Built a fully-featured RESTful API using Django REST Framework (DRF) with support for CRUD operations on todo tasks and their related timings. Implemented robust features including token-based authentication, authorized and unauthorized custom permissions, request throttling, filtering, search, ordering, and custom pagination. Leveraged ModelViewSet, DjangoFilterBackend, and nested serializers to ensure a clean, extensible, and secure API design.
 </div>
 
 ---
@@ -132,7 +132,8 @@ drf_learning/
     ├── __init__.py
     ├── models.py           # Database models
     ├── serializers.py      # DRF serializers for data validation
-    ├── views.py            # API views (function/class-based)
+    ├── views.py            # API views (ModelViewSet)
+    ├── permissions.py      # Custom permission classes for the Task Management API
     ├── urls.py             # App-level routing
     └── admin.py            # Admin site configuration
 ```
@@ -303,23 +304,77 @@ Authorization: Token your_token_here
 ---
 
 ## Permission Classes
-All views use the IsAuthenticated permission class to restrict access to logged-in users only.
+This API uses custom permission classes to ensure that users or sessions can only access their own data.
 
 #### Configuration in settings.py
 
 ```python
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ],
 }
 ```
-You can also apply permissions at the view level using:
-```python
-from rest_framework.permissions import IsAuthenticated
+#### Custom Permissions
 
-permission_classes = [IsAuthenticated]
+```python
+from rest_framework.permissions import BasePermission
+
+class IsOwnerOrSessionOwner(BasePermission):
+    """
+    Allows access only to the owner of the object or the session owner if unauthenticated.
+    """
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_authenticated:
+            return obj.user == request.user
+        session_key = request.session.session_key
+        return getattr(obj, 'session_key', None) == session_key
+
+class IsOwnerOfRelatedTodo(BasePermission):
+    """
+    Allows access only if the user/session owns the related Todo object.
+    Used for related TimingTodo objects.
+    """
+    def has_object_permission(self, request, view, obj):
+        todo = obj.todo
+        if request.user.is_authenticated:
+            return todo.user == request.user
+        session_key = request.session.session_key
+        return getattr(todo, 'session_key', None) == session_key
+
 ```
+
+#### You can use these permission classes in your views.py like this:
+
+```python
+from .permissions import IsOwnerOrSessionOwner, IsOwnerOfRelatedTodo
+
+class TodoModelViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsOwnerOrSessionOwner]
+    # ... your viewset code here
+
+class TimingsModelViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsOwnerOfRelatedTodo]
+    # ... your viewset code here
+
+```
+
+#### Models update for session key support (if needed)
+To support session-based ownership (when user is not authenticated), you may want to add a session_key field to your models.
+
+#### Usage in serializers or viewsets
+Make sure to enforce ownership filtering when querying objects, for example:
+
+```python
+def get_queryset(self):
+    user = self.request.user
+    session_key = self.request.session.session_key
+    if user.is_authenticated:
+        return Todo.objects.filter(user=user)
+    else:
+        return Todo.objects.filter(session_key=session_key)
+```
+
 --- 
 
 ## Throttling
