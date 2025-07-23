@@ -19,6 +19,7 @@ Built a fully-featured RESTful API using Django REST Framework (DRF) with suppor
 - [Throttling](#throttling)
 - [Filtering, Search, and Ordering](#filtering-search-and-ordering)
 - [API Testing](#api-testing)
+- [API Documentation (Swagger UI)](#api-documentation-swagger-ui)
 
 ---
 ## Features
@@ -499,9 +500,16 @@ Authorization: Token your_token_here
 
 
 ```
-
-
 ---
+
+## API Documentation (Swagger UI)
+This **Todo API** project is integrated with **Swagger UI** for easy exploration and testing of available endpoints.
+
+📄 **Access the interactive documentation:**  
+[http://localhost:8000/swagger/](http://localhost:8000/swagger/) &nbsp;_(only available in development mode)_
+
+✅ Anyone can view and interact with the API directly through the Swagger interface when the server is running locally.
+
 
 
 
