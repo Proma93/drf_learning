@@ -503,7 +503,7 @@ Authorization: Token your_token_here
 ---
 
 ## API Documentation (Swagger UI)
-This **Todo API** project is integrated with **Swagger UI** for easy exploration and testing of available endpoints.
+This **Task Track (Todo) API** project is integrated with **Swagger UI** for easy exploration and testing of available endpoints.
 
 📄 **Access the interactive documentation:**  
 [http://localhost:8000/swagger/](http://localhost:8000/swagger/) &nbsp;_(only available in development mode)_
