@@ -1,7 +1,7 @@
-<h1 align="center">📝 Task Management API using Django REST Framework </h1>
+<h1 align="center">📝 Task Track API using Django REST Framework </h1>
 
 <div align="justify">
-Built a fully-featured RESTful API using Django REST Framework (DRF) with support for CRUD operations on todo tasks and their related timings. Implemented robust features including token-based authentication, authorized and unauthorized custom permissions, request throttling, filtering, search, ordering, and custom pagination. Leveraged ModelViewSet, DjangoFilterBackend, and nested serializers to ensure a clean, extensible, and secure API design.
+Developed a secure and scalable Task Management API using Django REST Framework, showcasing advanced usage of ModelViewSets, nested serializers, and DjangoFilterBackend for clean, maintainable endpoint design. Implemented robust security layers including token and session authentication, custom permission classes, and request throttling. Integrated fully interactive API documentation using Swagger UI (drf-yasg) to enable real-time testing and exploration of all endpoints, including nested TimingTodo resources.
 </div>
 
 ---
@@ -19,6 +19,7 @@ Built a fully-featured RESTful API using Django REST Framework (DRF) with suppor
 - [Throttling](#throttling)
 - [Filtering, Search, and Ordering](#filtering-search-and-ordering)
 - [API Testing](#api-testing)
+- [API Documentation (Swagger UI)](#api-documentation-swagger-ui)
 
 ---
 ## Features
@@ -499,9 +500,16 @@ Authorization: Token your_token_here
 
 
 ```
-
-
 ---
+
+## API Documentation (Swagger UI)
+This **Task Track (Todo) API** project is integrated with **Swagger UI** for easy exploration and testing of available endpoints.
+
+📄 **Access the interactive documentation:**  
+[http://localhost:8000/swagger/](http://localhost:8000/swagger/) &nbsp;_(only available in development mode)_
+
+✅ Anyone can view and interact with the API directly through the Swagger interface when the server is running locally.
+
 
 
 
