@@ -27,7 +27,7 @@ from django.conf.urls.static import static
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Task Tracker API",
+        title="Task Track API",
         default_version='v1',
         description="API for managing Todos and TimingTodos",
     ),
