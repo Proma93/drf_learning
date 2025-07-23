@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_extensions',
     "home",
     'django_filters',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
