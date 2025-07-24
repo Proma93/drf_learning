@@ -26,11 +26,12 @@ Developed a secure and scalable Task Management API using Django REST Framework,
 
 - CRUD operations for Todo and TimingTodo
 - Authentication: Token and Session Authentication
-- Permissions: Only authenticated users can access the API
+- Permissions: Custom permissions enable controlled API access for both authenticated and unauthenticated users.
 - Throttling: Configured for both anonymous and authenticated users
 - Custom Pagination with limit-offset
 - DjangoFilterBackend and DRF's SearchFilter & OrderingFilter
 - Nested endpoint for creating and managing TimingTodo for a specific Todo
+- Containerized the application using Docker for consistent development and deployment environments.
 
 ---
 
