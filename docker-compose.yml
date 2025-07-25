@@ -3,7 +3,7 @@ services:
     build: .
     volumes:
       - .:/app # Mount current code for live reload
-      - db_data:/app # Persist SQLite file
+      - db_data:/app/data # Persist (save) SQLite file
     ports:
       - "8000:8000"
     env_file:
