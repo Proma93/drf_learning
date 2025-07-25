@@ -287,6 +287,10 @@ You can find the published image here:
 
 ---
 
+### 👤 Maintainer
+ 
+🐳 [Docker Hub](https://hub.docker.com/r/proma93/drf_learning-web)  
+💻 [GitHub](https://github.com/Proma93)
 
 
 
