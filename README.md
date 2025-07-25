@@ -1,7 +1,8 @@
 <h1 align="center">📝 Task Track API using Django REST Framework </h1>
 
 <div align="justify">
-Developed a secure and scalable Task Management API using Django REST Framework, showcasing advanced usage of ModelViewSets, nested serializers, and DjangoFilterBackend for clean, maintainable endpoint design. Implemented robust security layers including token and session authentication, custom permission classes, and request throttling. Integrated fully interactive API documentation using Swagger UI (drf-yasg) to enable real-time testing and exploration of all endpoints, including nested TimingTodo resources.
+Task Track API – Scalable Todo Management System using Django REST Framework
+Designed and implemented a fully containerized, secure, and scalable task management REST API using Django REST Framework. Leveraged ModelViewSet, nested serializers, and DjangoFilterBackend to create a clean, DRY endpoint architecture. The API supports authenticated CRUD operations on tasks and their schedules, integrates custom permissions and request throttling for security and performance, and features interactive API documentation via Swagger (drf-yasg). Deployed and distributed the app through Docker Hub, enabling anyone to run the project without setup overhead.ces.
 </div>
 
 ---
@@ -28,7 +29,8 @@ Developed a secure and scalable Task Management API using Django REST Framework,
 - Custom Pagination with limit-offset
 - DjangoFilterBackend and DRF's SearchFilter & OrderingFilter
 - Nested endpoint for creating and managing TimingTodo for a specific Todo
-- Containerized the application using Docker for consistent development and deployment environments.
+- Integrated Swagger UI for interactive, developer-friendly API documentation and testing experience.
+- Containerized and published the application using Docker and Docker Hub, enabling consistent development, deployment, and one-command execution without local setup overhead.
 
 ---
 
