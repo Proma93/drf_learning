@@ -14,12 +14,9 @@ Developed a secure and scalable Task Management API using Django REST Framework,
 - [Project Structure](#project-structure)
 - [Models](#models)
 - [API Endpoints](#api-endpoints)
-- [Authentication](#authentication)
-- [Permission Classes](#permission-classes)
-- [Throttling](#throttling)
-- [Filtering, Search, and Ordering](#filtering-search-and-ordering)
-- [API Testing](#api-testing)
+- [API Testing with Postman](#api-testing-with-postman)
 - [API Documentation (Swagger UI)](#api-documentation-swagger-ui)
+- [Run This Project via Docker](#run-this-project-via-docker)
 
 ---
 ## Features
@@ -38,11 +35,20 @@ Developed a secure and scalable Task Management API using Django REST Framework,
 ## Tech Stack
 This project leverages the following technologies:
 
-- [![Python](https://img.shields.io/badge/Python-3.10.9%2B-blue?logo=python)](https://www.python.org/)
-- [![Django](https://img.shields.io/badge/Django-5.2.4%2B-green?logo=django)](https://www.djangoproject.com/)
-- [![DRF](https://img.shields.io/badge/DRF-3.16.0-red?logo=django)](https://www.django-rest-framework.org/)
-- Django PostgreSQL / SQLite
-- Django Filter
+| **Layer**            | **Technology**                                                  | **Description**                                  |
+| -------------------- | --------------------------------------------------------------- | ------------------------------------------------ |
+| 🐍 Language         | [Python 3.10+](https://www.python.org/)                         | Core programming language                        |
+| 🌐 Web Framework    | [Django 5.2](https://www.djangoproject.com/)                    | High-level web framework for rapid development   |
+| 🔗 API Toolkit      | [Django REST Framework](https://www.django-rest-framework.org/) | Flexible toolkit to build Web APIs               |
+| 🔍 Filtering        | [django-filter](https://django-filter.readthedocs.io/)          | Add filtering to DRF views                       |
+| 📚 Docs Generator   | [drf-yasg](https://drf-yasg.readthedocs.io/)                    | Auto-generate Swagger/OpenAPI docs               |
+| 🧰 Dev Utilities    | [django-extensions](https://django-extensions.readthedocs.io/)  | Useful dev commands like `shell_plus`, etc.      |
+| ⚙️ Env Config       | [python-dotenv](https://pypi.org/project/python-dotenv/)        | Loads environment variables from `.env` files    |
+| 🐳 Containerization | [Docker](https://www.docker.com/)                               | Containerize the app for any environment         |
+| 📦 Image Hosting    | [Docker Hub](https://hub.docker.com/)                           | Store and distribute Docker images               |
+| 🧱 Database         | [SQLite](https://www.sqlite.org/index.html) (default)           | Lightweight, file-based database for dev/testing |
+| 🔧 Orchestration    | [Docker Compose](https://docs.docker.com/compose/) *(optional)* | Manage multi-container setups (DB, Redis, etc.)  |
+
 
 ---
 
@@ -124,7 +130,11 @@ drf_learning/
 ├── manage.py               # Django management script
 ├── env                     # Python virtual environments
 ├── requirements.txt        # Python dependencies
-├── .gitignore              # Specifies intentionally untracked files to ignore
+├── .dockerignore           # Lists files/directories Docker should ignore during image build
+├── docker-compose.yml      # Defines multi-container Docker applications
+├── Dockerfile              # Contains instructions to build a Docker image
+├── Makefile                # (Optional) Defines shell commands for development workflow automation
+├── README.md               # Project overview, setup instructions, usage, etc.
 ├── drfproject/             # Django project configuration
 │   ├── __init__.py
 │   ├── settings.py         # Main settings file
@@ -200,271 +210,7 @@ drf_learning/
 
 ---
 
-## Authentication
-This project uses TokenAuthentication and SessionAuthentication methods to secure all API endpoints.
-- TokenAuthentication – for API clients and mobile apps
-- SessionAuthentication – for browser-based sessions (e.g., admin panel, DRF browsable API)
-
-### Step-by-Step Setup
-#### 1️⃣ Install Required Packages
-If not already installed, install Django REST Framework and Token Authentication:
-
-```bash
-pip install djangorestframework
-```
-<details>
-<summary><strong>Optionally</strong></summary>
-    
-```bash
-pip install djangorestframework-authtoken
-```
-</details>  
-
-#### 2️⃣ Update INSTALLED_APPS
-Add the following apps in drfproject/settings.py:
-
-```python
-INSTALLED_APPS = [
-    ...
-    'rest_framework',
-    'rest_framework.authtoken',
-]
-```
-#### 3️⃣ Configure DRF Authentication Classes
-Update your REST_FRAMEWORK config in drfproject/settings.py:
-
-```python
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ]
-}
-```
-#### 4️⃣ Apply Migrations
-Run the following command to create the necessary tables for token authentication:
-```bash
-python manage.py migrate
-```
-
-#### 5️⃣ Create a Superuser (Optional but recommended)
-
-```bash
-python manage.py createsuperuser
-```
-This account can be used to generate tokens and access the browsable API.
-
-#### 6️⃣ Generate Authentication Token for a User
-You can generate a token for a specific user using DRF's built.in Auth Endpoint.
-Enable the default token endpoint by adding this to your project-level urls.py (usually drfproject/urls.py):
-```python
-from rest_framework.authtoken.views import obtain_auth_token
-
-urlpatterns = [
-    ...
-    path('api-token-auth/', obtain_auth_token),
-]
-```
-
-#### 🔑 Example Request:
-
-```http
-POST /api-token-auth/
-Content-Type: application/json
-```
-```json
-{
-  "username": "your_username",
-  "password": "your_password"
-}
-
-```
-#### 🔑 Example Response:
-
-```json
-{
-  "token": "2a376d4a5b2e..." 
-}
-
-```
-#### 7️⃣ Use Token in API Requests
-Send the token in the Authorization header for all API requests.
-
-```http
-Authorization: Token your_token_here
-```
-#### 🔐 Example with Postman
-
-- Go to Authorization tab
-- Type: Token
-- Value: your_token_here
-- Header will be automatically added as:
-
-```http
-Authorization: Token your_token_here
-```
----
-
-## Permission Classes
-This API uses custom permission classes to ensure that users or sessions can only access their own data.
-
-#### Configuration in settings.py
-
-```python
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
-}
-```
-#### Custom Permissions
-
-```python
-from rest_framework.permissions import BasePermission
-
-class IsOwnerOrSessionOwner(BasePermission):
-    """
-    Allows access only to the owner of the object or the session owner if unauthenticated.
-    """
-    def has_object_permission(self, request, view, obj):
-        if request.user.is_authenticated:
-            return obj.user == request.user
-        session_key = request.session.session_key
-        return getattr(obj, 'session_key', None) == session_key
-
-class IsOwnerOfRelatedTodo(BasePermission):
-    """
-    Allows access only if the user/session owns the related Todo object.
-    Used for related TimingTodo objects.
-    """
-    def has_object_permission(self, request, view, obj):
-        todo = obj.todo
-        if request.user.is_authenticated:
-            return todo.user == request.user
-        session_key = request.session.session_key
-        return getattr(todo, 'session_key', None) == session_key
-
-```
-
-#### You can use these permission classes in your views.py like this:
-
-```python
-from .permissions import IsOwnerOrSessionOwner, IsOwnerOfRelatedTodo
-
-class TodoModelViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsOwnerOrSessionOwner]
-    # ... your viewset code here
-
-class TimingsModelViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsOwnerOfRelatedTodo]
-    # ... your viewset code here
-
-```
-
-#### Models update for session key support (if needed)
-To support session-based ownership (when user is not authenticated), you may want to add a session_key field to your models.
-
-#### Usage in serializers or viewsets
-Make sure to enforce ownership filtering when querying objects, for example:
-
-```python
-def get_queryset(self):
-    user = self.request.user
-    session_key = self.request.session.session_key
-    if user.is_authenticated:
-        return Todo.objects.filter(user=user)
-    else:
-        return Todo.objects.filter(session_key=session_key)
-```
-
---- 
-
-## Throttling
-Rate limiting is applied to protect the API from abuse using:
-- AnonRateThrottle – for unauthenticated users
-- UserRateThrottle – for authenticated users
-#### Configuration in settings.py
-
-
-```python
-REST_FRAMEWORK = {
-    ...
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle',
-    ],
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '10/day',
-        'user': '1000/day',
-    },
-}
-```
---- 
-
-## Filtering, Search, and Ordering
-This API supports powerful data querying features including:
-
-- Field-based filtering (DjangoFilterBackend)
-- Search across fields (SearchFilter)
-- Ordering results (OrderingFilter)
-
-#### Configuration in settings.py
-
-```python
-REST_FRAMEWORK = {
-    ...
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend',
-        'rest_framework.filters.SearchFilter',
-        'rest_framework.filters.OrderingFilter',
-    ],
-}
-```
-
-#### Usage in Views
-
-```python
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
-
-filter_backends = [
-    DjangoFilterBackend,
-    filters.SearchFilter,
-    filters.OrderingFilter,
-]
-
-filterset_fields = ['is_done']
-search_fields = ['todo_title', 'todo_description']
-ordering_fields = ['created_at', 'todo_title']
-ordering = ['created_at']
-```
-
-#### Example API Queries
-🔹 Filter by completion
-
-```http
-GET /todos/?is_done=true
-```
-🔹 Search in title or description
-
-```http
-GET /todos/?search=test
-```
-🔹 Order by title
-
-```http
-GET /todos/?ordering=todo_title
-```
-
-## API Testing
-
-You can test the API endpoints using:
-
-- **Postman**  
-- **cURL**  
-- **Django Browsable API** at [http://127.0.0.1:8000](http://127.0.0.1:8000)
-
-#### API Testing with Postman
+## API Testing with Postman
 POST /todos/
 
 🔹 Headers:
@@ -498,8 +244,6 @@ Authorization: Token your_token_here
     ...
   }
 }
-
-
 ```
 ---
 
@@ -511,10 +255,41 @@ This **Task Track (Todo) API** project is integrated with **Swagger UI** for eas
 
 ✅ Anyone can view and interact with the API directly through the Swagger interface when the server is running locally.
 
+---
 
+## Run This Project via Docker
+You can pull and run this API directly from Docker Hub:
 
+🔹 Pull the Image
+```bash
+docker pull proma93/drf_learning-web:latest
+```
+🔹 Run the API Server
+```bash
+docker run -p 8000:8000 proma93/drf_learning-web:latest
+```
+🔹 Optional: Run Database Migrations
+If you're using SQLite and running the image for the first time:
 
+```bash
 
+docker volume create drf_data
+
+docker run --rm \
+  -v drf_data:/app/data \
+  yourusername/drf-api:latest \
+  python manage.py migrate
+```
+Then:
+
+```bash
+docker run -p 8000:8000 -v drf_data:/app/data proma93/drf_learning-web:latest
+```
+>🌐 Visit: http://localhost:8000
+
+#### 📦 Docker Hub
+You can find the published image here:
+👉 https://hub.docker.com/r/proma93/drf_learning-web
 
 
 
