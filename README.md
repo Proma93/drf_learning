@@ -1,7 +1,6 @@
 <h1 align="center">📝 Task Track API using Django REST Framework </h1>
 
 <div align="justify">
-Task Track API – Scalable Todo Management System using Django REST Framework
 Designed and implemented a fully containerized, secure, and scalable task management REST API using Django REST Framework. Leveraged ModelViewSet, nested serializers, and DjangoFilterBackend to create a clean, DRY endpoint architecture. The API supports authenticated CRUD operations on tasks and their schedules, integrates custom permissions and request throttling for security and performance, and features interactive API documentation via Swagger (drf-yasg). Deployed and distributed the app through Docker Hub, enabling anyone to run the project without setup overhead.ces.
 </div>
 
