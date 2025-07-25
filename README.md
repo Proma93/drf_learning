@@ -259,40 +259,33 @@ This **Task Track (Todo) API** project is integrated with **Swagger UI** for eas
 ---
 
 ## Run This Project via Docker
-You can pull and run this API directly from Docker Hub:
 
-🔹 Pull the Image
+#### 🚀 You can pull and run this API directly from Docker Hub:
+
 ```bash
+# Pull the image
 docker pull proma93/drf_learning-web:latest
-```
-🔹 Run the API Server
-```bash
+
+# Run the container
 docker run -p 8000:8000 proma93/drf_learning-web:latest
 ```
-🔹 Optional: Run Database Migrations
-If you're using SQLite and running the image for the first time:
+➡️ Open [http://localhost:8000/swagger/](http://localhost:8000/swagger/) in your browser.
 
+#### 📦 Persistent Volume Setup (Optional)
 ```bash
-
+# Create a volume
 docker volume create drf_data
 
-docker run --rm \
-  -v drf_data:/app/data \
-  yourusername/drf-api:latest \
-  python manage.py migrate
+# Run with volume mount for persistent SQLite DB
+docker run -v drf_data:/app/data -p 8000:8000 proma93/drf_learning-web:latest
 ```
-Then:
-
-```bash
-docker run -p 8000:8000 -v drf_data:/app/data proma93/drf_learning-web:latest
-```
->🌐 Visit: http://localhost:8000
+🌐 Visit: [http://localhost:8000](http://localhost:8000) in your browser.
 
 #### 📦 Docker Hub
 You can find the published image here:
-👉 https://hub.docker.com/r/proma93/drf_learning-web
+👉 [proma93/drf_learning-web](https://hub.docker.com/r/proma93/drf_learning-web)
 
-
+---
 
 
 
