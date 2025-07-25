@@ -1,7 +1,7 @@
 <h1 align="center">📝 Task Track API using Django REST Framework </h1>
 
 <div align="justify">
-Designed and implemented a fully containerized, secure, and scalable task management REST API using Django REST Framework. Leveraged ModelViewSet, nested serializers, and DjangoFilterBackend to create a clean, DRY endpoint architecture. The API supports authenticated CRUD operations on tasks and their schedules, integrates custom permissions and request throttling for security and performance, and features interactive API documentation via Swagger (drf-yasg). Deployed and distributed the app through Docker Hub, enabling anyone to run the project without setup overhead.ces.
+Designed and implemented a fully containerized, secure, and scalable task management REST API using Django REST Framework. Leveraged ModelViewSet, nested serializers, and DjangoFilterBackend to create a clean, DRY endpoint architecture. The API supports authenticated CRUD operations on tasks and their schedules, integrates custom permissions and request throttling for security and performance, and features interactive API documentation via Swagger (drf-yasg). Implemented a robust CI/CD pipeline using GitHub Actions to automate testing, Docker image builds, and deployment to Docker Hub, ensuring continuous integration and zero-setup delivery. Deployed and distributed the app through Docker Hub, enabling anyone to run the project with a single command and no local setup overhead.
 </div>
 
 ---
@@ -21,15 +21,16 @@ Designed and implemented a fully containerized, secure, and scalable task manage
 ---
 ## Features
 
-- CRUD operations for Todo and TimingTodo
-- Authentication: Token and Session Authentication
-- Permissions: Custom permissions enable controlled API access for both authenticated and unauthenticated users.
-- Throttling: Configured for both anonymous and authenticated users
-- Custom Pagination with limit-offset
-- DjangoFilterBackend and DRF's SearchFilter & OrderingFilter
-- Nested endpoint for creating and managing TimingTodo for a specific Todo
-- Integrated Swagger UI for interactive, developer-friendly API documentation and testing experience.
-- Containerized and published the application using Docker and Docker Hub, enabling consistent development, deployment, and one-command execution without local setup overhead.
+- Implemented full CRUD operations for Todo and nested TimingTodo endpoints
+- Token and Session Authentication with custom permissions for controlled API access
+- Throttling configured for both anonymous and authenticated users to prevent abuse
+- Custom pagination using LimitOffsetPagination for flexible data access
+- Integrated filtering with DjangoFilterBackend, SearchFilter, and OrderingFilter
+- Nested endpoints for managing TimingTodo objects under specific Todo resources
+- Swagger UI (drf-yasg) for interactive API documentation and developer testing
+- Containerized with Docker and published to Docker Hub for seamless deployment
+- CI/CD pipeline built using GitHub Actions for automated build, test, and Docker push
+- One-command setup with docker-compose to run the full app with no local config
 
 ---
 
@@ -49,6 +50,7 @@ This project leverages the following technologies:
 | 📦 Image Hosting    | [Docker Hub](https://hub.docker.com/)                           | Store and distribute Docker images               |
 | 🧱 Database         | [SQLite](https://www.sqlite.org/index.html) (default)           | Lightweight, file-based database for dev/testing |
 | 🔧 Orchestration    | [Docker Compose](https://docs.docker.com/compose/) *(optional)* | Manage multi-container setups (DB, Redis, etc.)  |
+| 🚀 CI/CD Automation | [GitHub Actions](https://github.com/features/actions)           | Automate tests, builds, and Docker deployments   |
 
 
 ---
