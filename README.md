@@ -19,6 +19,7 @@ Designed and implemented a fully containerized, secure, and scalable task manage
 - [Run This Project via Docker](#run-this-project-via-docker)
 
 ---
+
 ## Features
 
 - Implemented full CRUD operations for Todo and nested TimingTodo endpoints
