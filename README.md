@@ -17,6 +17,7 @@ Designed and implemented a fully containerized, secure, and scalable task manage
 - [API Testing with Postman](#api-testing-with-postman)
 - [API Documentation (Swagger UI)](#api-documentation-swagger-ui)
 - [Run This Project via Docker](#run-this-project-via-docker)
+- [Future Work](#future-work)
 
 ---
 
@@ -287,6 +288,19 @@ docker run -v drf_data:/app/data -p 8000:8000 proma93/drf_learning-web:latest
 #### 📦 Docker Hub
 You can find the published image here:
 👉 [proma93/drf_learning-web](https://hub.docker.com/r/proma93/drf_learning-web)
+
+---
+
+## Future Work
+
+- **API Versioning**: Implement versioned endpoints (e.g., `/api/v1/`) to support long-term maintainability and backward compatibility.
+- **Async Tasks with Celery**: Integrate Celery with Redis to handle background tasks such as email notifications or periodic reminders.
+- **Role-Based Access Control (RBAC)**: Add user roles (admin, manager, user) with scoped permissions for finer-grained access control.
+- **Improve Test Coverage**: Expand unit and integration tests using `pytest`, aiming for high coverage and reliability in edge cases.
+- **Production-Ready Deployment**: Set up deployment using Gunicorn + Nginx with Docker, along with HTTPS (Let's Encrypt) and environment hardening.
+- **Monitoring and Logging**: Integrate Sentry for error tracking and Prometheus/Grafana for metrics and observability.
+- **Use PostgreSQL**: Switch to PostgreSQL for better performance, reliability, and advanced DB features over SQLite.
+- **Staging Environment**: Create a parallel staging environment to test new features before pushing to production.
 
 ---
 
