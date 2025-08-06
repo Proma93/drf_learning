@@ -18,6 +18,7 @@ Designed and implemented a fully containerized, secure, and scalable task manage
 - [API Documentation (Swagger UI)](#api-documentation-swagger-ui)
 - [Run This Project via Docker](#run-this-project-via-docker)
 - [Future Work](#future-work)
+- [Maintainer](#maintainer)
 
 ---
 
@@ -304,7 +305,7 @@ You can find the published image here:
 
 ---
 
-### 👤 Maintainer
+## Maintainer
  
 🐳 [Docker Hub](https://hub.docker.com/r/proma93/drf_learning-web)  
 💻 [GitHub](https://github.com/Proma93)
