@@ -27,7 +27,7 @@ from django.conf.urls.static import static
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Task Track API",
+        title="Task Track API Documentation",
         default_version='v1',
         description="API for managing Todos and TimingTodos",
     ),
@@ -36,11 +36,12 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('token/', obtain_auth_token, name='token'),
-    path('', include('home.urls')),   # This includes the home app's URLs
+    path('api/v1/token/', obtain_auth_token, name='token'),
+    path('api/v1/', include('home.urls')),   # This includes the home app's URLs
     path('admin/', admin.site.urls),
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('api/v1/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
 
+# Serve static files in development
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
