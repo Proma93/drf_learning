@@ -1,12 +1,12 @@
-<h1 align="center">📝 Task Track API using Django REST Framework </h1>
+<h1 align="center">Task Track API using Django REST Framework </h1>
 
 <div align="justify">
-Designed and implemented a fully containerized, secure, and scalable task management REST API using Django REST Framework. Leveraged ModelViewSet, nested serializers, and DjangoFilterBackend to create a clean, DRY endpoint architecture. The API supports authenticated CRUD operations on tasks and their schedules, integrates custom permissions and request throttling for security and performance, and features interactive API documentation via Swagger (drf-yasg). Deployed and distributed the app through Docker Hub, enabling anyone to run the project without setup overhead.ces.
+Designed and implemented a fully containerized, secure, and scalable task management REST API using Django REST Framework. Leveraged ModelViewSet, nested serializers, and DjangoFilterBackend to create a clean, DRY endpoint architecture. The API supports authenticated CRUD operations on tasks and their schedules, integrates custom permissions and request throttling for security and performance, and features interactive API documentation via Swagger (drf-yasg). Implemented a robust CI/CD pipeline using GitHub Actions to automate testing, Docker image builds, and deployment to Docker Hub, ensuring continuous integration and zero-setup delivery. Deployed and distributed the app through Docker Hub, enabling anyone to run the project with a single command and no local setup overhead.
 </div>
 
 ---
 
-## 📚 Table of Contents
+## Table of Contents
 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
@@ -17,20 +17,23 @@ Designed and implemented a fully containerized, secure, and scalable task manage
 - [API Testing with Postman](#api-testing-with-postman)
 - [API Documentation (Swagger UI)](#api-documentation-swagger-ui)
 - [Run This Project via Docker](#run-this-project-via-docker)
+- [Future Work](#future-work)
+- [Maintainer](#maintainer)
 
 ---
 
 ## Features
 
-- CRUD operations for Todo and TimingTodo
-- Authentication: Token and Session Authentication
-- Permissions: Custom permissions enable controlled API access for both authenticated and unauthenticated users.
-- Throttling: Configured for both anonymous and authenticated users
-- Custom Pagination with limit-offset
-- DjangoFilterBackend and DRF's SearchFilter & OrderingFilter
-- Nested endpoint for creating and managing TimingTodo for a specific Todo
-- Integrated Swagger UI for interactive, developer-friendly API documentation and testing experience.
-- Containerized and published the application using Docker and Docker Hub, enabling consistent development, deployment, and one-command execution without local setup overhead.
+- Implemented full CRUD operations for Todo and nested TimingTodo endpoints
+- Token and Session Authentication with custom permissions for controlled API access
+- Throttling configured for both anonymous and authenticated users to prevent abuse
+- Custom pagination using LimitOffsetPagination for flexible data access
+- Integrated filtering with DjangoFilterBackend, SearchFilter, and OrderingFilter
+- Nested endpoints for managing TimingTodo objects under specific Todo resources
+- Swagger UI (drf-yasg) for interactive API documentation and developer testing
+- Containerized with Docker and published to Docker Hub for seamless deployment
+- CI/CD pipeline built using GitHub Actions for automated build, test, and Docker push
+- One-command setup with docker-compose to run the full app with no local config
 
 ---
 
@@ -50,6 +53,7 @@ This project leverages the following technologies:
 | 📦 Image Hosting    | [Docker Hub](https://hub.docker.com/)                           | Store and distribute Docker images               |
 | 🧱 Database         | [SQLite](https://www.sqlite.org/index.html) (default)           | Lightweight, file-based database for dev/testing |
 | 🔧 Orchestration    | [Docker Compose](https://docs.docker.com/compose/) *(optional)* | Manage multi-container setups (DB, Redis, etc.)  |
+| 🚀 CI/CD Automation | [GitHub Actions](https://github.com/features/actions)           | Automate tests, builds, and Docker deployments   |
 
 
 ---
@@ -288,7 +292,20 @@ You can find the published image here:
 
 ---
 
-### 👤 Maintainer
+## Future Work
+
+- **API Versioning**: Implement versioned endpoints (e.g., `/api/v1/`) to support long-term maintainability and backward compatibility.
+- **Async Tasks with Celery**: Integrate Celery with Redis to handle background tasks such as email notifications or periodic reminders.
+- **Role-Based Access Control (RBAC)**: Add user roles (admin, manager, user) with scoped permissions for finer-grained access control.
+- **Improve Test Coverage**: Expand unit and integration tests using `pytest`, aiming for high coverage and reliability in edge cases.
+- **Production-Ready Deployment**: Set up deployment using Gunicorn + Nginx with Docker, along with HTTPS (Let's Encrypt) and environment hardening.
+- **Monitoring and Logging**: Integrate Sentry for error tracking and Prometheus/Grafana for metrics and observability.
+- **Use PostgreSQL**: Switch to PostgreSQL for better performance, reliability, and advanced DB features over SQLite.
+- **Staging Environment**: Create a parallel staging environment to test new features before pushing to production.
+
+---
+
+## Maintainer
  
 🐳 [Docker Hub](https://hub.docker.com/r/proma93/drf_learning-web)  
 💻 [GitHub](https://github.com/Proma93)
