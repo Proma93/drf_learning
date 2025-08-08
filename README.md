@@ -30,7 +30,7 @@ Designed and implemented a fully containerized, secure, and scalable task manage
 - Custom pagination using LimitOffsetPagination for flexible data access
 - Integrated filtering with DjangoFilterBackend, SearchFilter, and OrderingFilter
 - Nested endpoints for managing TimingTodo objects under specific Todo resources
-- Swagger UI (drf-yasg) and ReDoc UI for interactive API documentation and developer testing protected by authentication
+- Protected Swagger UI and ReDoc for interactive API docs and developer testing with authentication.
 - Containerized with Docker and published to Docker Hub for seamless deployment
 - CI/CD pipeline built using GitHub Actions for automated build, test, and Docker push
 - One-command setup with docker-compose to run the full app with no local config
