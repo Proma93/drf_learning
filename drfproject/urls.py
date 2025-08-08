@@ -44,8 +44,8 @@ def build_schema_view(version, patterns):
             contact=openapi.Contact(email="ahmed.farjana@gmail.com"),
         ),
         public=True,
-        permission_classes=(permissions.AllowAny,),   # change for prod
-        patterns=patterns,  # only include the versioned paths
+        permission_classes=(permissions.IsAuthenticated,),   # changed for prod
+        patterns=patterns,                                   # only include the versioned paths
     )
 
 # import url patterns of the home app and wrap for versioned docs
