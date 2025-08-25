@@ -24,13 +24,13 @@ Designed and implemented a fully containerized, secure, and scalable task manage
 
 ## Features
 
-- Implemented full versioned CRUD operations for Todo and nested TimingTodo endpoints
+- Implemented full URL level versioned CRUD operations for Todo and nested TimingTodo endpoints
 - Token and Session Authentication with custom permissions for controlled API access
 - Throttling configured for both anonymous and authenticated users to prevent abuse
 - Custom pagination using LimitOffsetPagination for flexible data access
 - Integrated filtering with DjangoFilterBackend, SearchFilter, and OrderingFilter
 - Nested endpoints for managing TimingTodo objects under specific Todo resources
-- Protected Swagger UI and ReDoc for interactive API docs and developer testing with authentication.
+- Secure, versioned Swagger UI and ReDoc for interactive API docs and developer testing with authentication.
 - Containerized with Docker and published to Docker Hub for seamless deployment
 - CI/CD pipeline built using GitHub Actions for automated build, test, and Docker push
 - One-command setup with docker-compose to run the full app with no local config
@@ -294,7 +294,6 @@ You can find the published image here:
 
 ## Future Work
 
-- **API Versioning**: Implement versioned endpoints (e.g., `/api/v1/`) to support long-term maintainability and backward compatibility.
 - **Async Tasks with Celery**: Integrate Celery with Redis to handle background tasks such as email notifications or periodic reminders.
 - **Role-Based Access Control (RBAC)**: Add user roles (admin, manager, user) with scoped permissions for finer-grained access control.
 - **Improve Test Coverage**: Expand unit and integration tests using `pytest`, aiming for high coverage and reliability in edge cases.
