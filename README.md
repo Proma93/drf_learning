@@ -172,7 +172,7 @@ drf_learning/
 
 ## API Endpoints
 
-#### 📌 Todo Endpoints
+#### Todo Endpoints
 
 | Method | Endpoint        | Description              |
 | ------ | --------------- | ------------------------ |
@@ -183,7 +183,7 @@ drf_learning/
 | DELETE | `/todos/{uid}/` | Delete a todo            |
 
 
-#### 🕒 Nested TimingTodo under Todo
+#### Nested TimingTodo under Todo
 
 | Method | Endpoint                      | Description                        |
 | ------ | ----------------------------- | ---------------------------------- |
@@ -193,7 +193,7 @@ drf_learning/
 | PATCH  | `/todos/{uid}/timings/{tid}/` | Partially update a specific timing |
 | DELETE | `/todos/{uid}/timings/{tid}/` | Delete a specific timing           |
 
-#### 🔄 All TimingTodo Endpoints
+#### All TimingTodo Endpoints
 
 | Method | Endpoint    | Description               |
 | ------ | ----------- | ------------------------- |
@@ -205,14 +205,14 @@ drf_learning/
 ## API Testing with Postman
 POST /todos/
 
-🔹 Headers:
+Headers:
 
 ```http
 Content-Type: application/json
 Authorization: Token your_token_here
 ```
 
-🔹 Body:
+Body:
 
 ```json
 {
@@ -222,7 +222,7 @@ Authorization: Token your_token_here
 }
 
 ```
-🔹 Response:
+Response:
 
 ```json
 {
