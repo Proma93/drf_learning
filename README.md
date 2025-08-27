@@ -43,21 +43,24 @@ Designed and implemented a fully containerized, secure, and scalable task manage
 ## Tech Stack
 This project leverages the following technologies:
 
-| **Layer**            | **Technology**                                                  | **Description**                                  |
-| -------------------- | --------------------------------------------------------------- | ------------------------------------------------ |
-| 🐍 Language         | [Python 3.10+](https://www.python.org/)                         | Core programming language                        |
-| 🌐 Web Framework    | [Django 5.2](https://www.djangoproject.com/)                    | High-level web framework for rapid development   |
-| 🔗 API Toolkit      | [Django REST Framework](https://www.django-rest-framework.org/) | Flexible toolkit to build Web APIs               |
-| 🔍 Filtering        | [django-filter](https://django-filter.readthedocs.io/)          | Add filtering to DRF views                       |
-| 📚 Docs Generator   | [drf-yasg](https://drf-yasg.readthedocs.io/)                    | Auto-generate Swagger/OpenAPI docs               |
-| 🧰 Dev Utilities    | [django-extensions](https://django-extensions.readthedocs.io/)  | Useful dev commands like `shell_plus`, etc.      |
-| ⚙️ Env Config       | [python-dotenv](https://pypi.org/project/python-dotenv/)        | Loads environment variables from `.env` files    |
-| 🐳 Containerization | [Docker](https://www.docker.com/)                               | Containerize the app for any environment         |
-| 📦 Image Hosting    | [Docker Hub](https://hub.docker.com/)                           | Store and distribute Docker images               |
-| 🧱 Database         | [SQLite](https://www.sqlite.org/index.html) (default)           | Lightweight, file-based database for dev/testing |
-| 🔧 Orchestration    | [Docker Compose](https://docs.docker.com/compose/) *(optional)* | Manage multi-container setups (DB, Redis, etc.)  |
-| 🚀 CI/CD Automation | [GitHub Actions](https://github.com/features/actions)           | Automate tests, builds, and Docker deployments   |
-
+| **Layer**         | **Technology**                                                  | **Description**                                  |
+| ----------------- | --------------------------------------------------------------- | ------------------------------------------------ |
+| Language          | [Python 3.10+](https://www.python.org/)                         | Core programming language                        |
+| Web Framework     | [Django 5.2](https://www.djangoproject.com/)                    | High-level web framework for rapid development   |
+| API Toolkit       | [Django REST Framework](https://www.django-rest-framework.org/) | Flexible toolkit to build Web APIs               |
+| Filtering         | [django-filter](https://django-filter.readthedocs.io/)          | Add filtering to DRF views                       |
+| Docs Generator    | [drf-yasg](https://drf-yasg.readthedocs.io/)                    | Auto-generate Swagger/OpenAPI docs               |
+| Dev Utilities     | [django-extensions](https://django-extensions.readthedocs.io/)  | Useful dev commands like `shell_plus`, etc.      |
+| Env Config        | [python-dotenv](https://pypi.org/project/python-dotenv/)        | Loads environment variables from `.env` files    |
+| Task Queue        | [Celery](https://docs.celeryq.dev/)                             | Distributed task queue for background jobs       |
+| Message Broker    | [Redis](https://redis.io/)                                      | In-memory data store used as Celery broker       |
+| Monitoring (Data) | [Prometheus](https://prometheus.io/)                            | Metrics collection and alerting                  |
+| Monitoring (UI)   | [Grafana](https://grafana.com/)                                 | Dashboard visualization for metrics              |
+| Containerization  | [Docker](https://www.docker.com/)                               | Containerize the app for any environment         |
+| Image Hosting     | [Docker Hub](https://hub.docker.com/)                           | Store and distribute Docker images               |
+| Database          | [SQLite](https://www.sqlite.org/index.html) (default)           | Lightweight, file-based database for dev/testing |
+| Orchestration     | [Docker Compose](https://docs.docker.com/compose/) *(optional)* | Manage multi-container setups (DB, Redis, etc.)  |
+| CI/CD Automation  | [GitHub Actions](https://github.com/features/actions)           | Automate tests, builds, and Docker deployments   |
 
 ---
 
