@@ -266,9 +266,9 @@ Below are example screenshots from the monitoring setup for the Task Track app:
 
 - Collects real-time metrics from the Django application and Celery workers.
 - Tracks key indicators such as request rates, response codes, latency, and scheduled reminder executions.
-- **Prometheus Targets**
-  ![Prometheus Targets](static/images/prometheus_targets.png)  
-  *Figure 1: Prometheus successfully scraping metrics from Django app, Celery worker, and Prometheus server.*
+
+![Prometheus Targets](static/images/prometheus_targets.png)  
+*Figure 1: Prometheus successfully scraping metrics from Django app, Celery worker, and Prometheus server.*
 
 
 ### Grafana Dashboards
@@ -278,9 +278,9 @@ Below are example screenshots from the monitoring setup for the Task Track app:
   - HTTP requests and responses (by method, status, and view)
   - Request latency (average and percentile distributions)
   - Celery task execution, success/failure rates, and reminder scheduling
-- **Grafana Overview**
-  ![Grafana Overview](static/images/grafana_django_dashboard.png)  
-  *Figure 2: High-level overview of Task Track app performance metrics.*
+    
+![Grafana Overview](static/images/grafana_django_dashboard.png)  
+*Figure 2: High-level overview of Task Track app performance metrics.*
 
 
 ---
