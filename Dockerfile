@@ -4,6 +4,7 @@ FROM python:3.10-slim
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV PROMETHEUS_MULTIPROC_DIR=/tmp/prometheus_multiproc
 
 # Set working directory in the container
 WORKDIR /app
@@ -16,7 +17,7 @@ RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY . .
 
 RUN python manage.py collectstatic --noinput
-
+RUN mkdir -p /tmp/prometheus_multiproc
 # Expose Django default port
 EXPOSE 8000
 

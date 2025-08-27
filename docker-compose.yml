@@ -2,8 +2,8 @@ services:
   web:
     build: .
     volumes:
-      - .:/app # Mount current code for live reload
-      - db_data:/app/data # Persist (save) SQLite file
+      - .:/app                  # Mount current code for live reload
+      - db_data:/app/data       # Persist (save) SQLite file
       - static_volume:/app/staticfiles
     ports:
       - "8000:8000"
@@ -12,6 +12,53 @@ services:
     depends_on: []
     restart: unless-stopped
 
+  worker:
+    build: .
+    command: celery -A drfproject worker -l info
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    ports:
+      - "9091:9091"   # expose Celery Prometheus metrics
+    environment:
+      - CELERY_PROMETHEUS_PORT=9091
+    depends_on:
+      - web
+    restart: unless-stopped
+
+  # Prometheus service
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    depends_on:
+      - web
+      - worker
+    restart: unless-stopped
+
+  # Grafana service
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
 volumes:
   db_data:
   static_volume:
+  prometheus_data:
+  grafana_data:
