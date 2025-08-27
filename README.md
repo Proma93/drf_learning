@@ -14,7 +14,7 @@ Designed and implemented a fully containerized, secure, and scalable task manage
 - [Project Structure](#project-structure)
 - [API Endpoints](#api-endpoints)
 - [API Testing with Postman](#api-testing-with-postman)
-- [API Documentation (Swagger UI)](#api-documentation-swagger-ui)
+- [API Documentation](#api-documentation)
 - [Monitoring & Observability](#monitoring--observability)
 - [Run This Project via Docker](#run-this-project-via-docker)
 - [Working On](#working-on)
@@ -233,13 +233,28 @@ Authorization: Token your_token_here
 ```
 ---
 
-## API Documentation (Swagger UI)
-This **Task Track (Todo) API** project is integrated with **Swagger UI** for easy exploration and testing of available endpoints.
+## API Documentation
+This **Task Track API** project is integrated with **Swagger UI** and **ReDoc** for easy exploration and testing of available endpoints.
 
-📄 **Access the interactive documentation:**  
-[http://localhost:8000/swagger/](http://localhost:8000/swagger/) &nbsp;_(only available in development mode)_
+### Swagger UI
+Swagger UI provides an interactive interface to explore and test all API endpoints, view request/response formats, and understand authentication requirements.
 
-✅ Anyone can view and interact with the API directly through the Swagger interface when the server is running locally.
+![Swagger UI Screenshot](static/images/API_Documentations_Swagger.png)  
+*Figure 1: Interactive Swagger UI for the Task Track API.*
+
+### ReDoc
+ReDoc offers a clean, responsive, and versioned API documentation interface, making it easy for developers to browse endpoints and schemas securely.
+
+![ReDoc Screenshot](static/images/redoc.png)  
+*Figure 2: ReDoc interface for structured API documentation.*
+
+## **Access the documentation locally:**  
+
+- Swagger UI: [http://127.0.0.1:8080/api/v1/swagger/](http://127.0.0.1:8080/api/v1/swagger/)
+- ReDoc: [http://127.0.0.1:8080/api/v1/redoc/](http://127.0.0.1:8080/api/v1/redoc/)
+
+Both tools are available during development mode and provide an enhanced developer experience for testing and integrating the API.
+
 
 ---
 
