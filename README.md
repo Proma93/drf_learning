@@ -293,7 +293,7 @@ Below are example screenshots from the monitoring setup for the Task Track app:
 
 ## Run This Project via Docker
 
-#### 🚀 You can pull and run this API directly from Docker Hub:
+#### You can pull and run this API directly from Docker Hub:
 
 ```bash
 # Pull the image
@@ -302,9 +302,7 @@ docker pull proma93/drf_learning-web:latest
 # Run the container
 docker run -p 8000:8000 proma93/drf_learning-web:latest
 ```
-➡️ Open [http://localhost:8000/swagger/](http://localhost:8000/swagger/) in your browser.
-
-#### 📦 Persistent Volume Setup (Optional)
+#### Persistent Volume Setup (Optional)
 ```bash
 # Create a volume
 docker volume create drf_data
@@ -312,9 +310,9 @@ docker volume create drf_data
 # Run with volume mount for persistent SQLite DB
 docker run -v drf_data:/app/data -p 8000:8000 proma93/drf_learning-web:latest
 ```
-🌐 Visit: [http://localhost:8000](http://localhost:8000) in your browser.
+Visit: [http://localhost:8000](http://localhost:8000) in your browser.
 
-#### 📦 Docker Hub
+#### Docker Hub
 You can find the published image here:
 👉 [proma93/drf_learning-web](https://hub.docker.com/r/proma93/drf_learning-web)
 
