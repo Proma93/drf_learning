@@ -239,8 +239,8 @@ This **Task Track API** project is integrated with **Swagger UI** and **ReDoc** 
 ### Swagger UI
 Swagger UI provides an interactive interface to explore and test all API endpoints, view request/response formats, and understand authentication requirements.
 
-![Swagger UI Screenshot](static/images/API_Documentations_Swagger.png)  
-*Figure 1: Interactive Swagger UI for the Task Track API.*
+<img src="static/images/API_Documentations_Swagger.png" alt="Swagger UI Screenshot" width="500">
+<p><em>Figure 1: Interactive Swagger UI for the Task Track API.</em></p>
 
 ### ReDoc
 ReDoc offers a clean, responsive, and versioned API documentation interface, making it easy for developers to browse endpoints and schemas securely.
