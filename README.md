@@ -12,11 +12,12 @@ Designed and implemented a fully containerized, secure, and scalable task manage
 - [Tech Stack](#tech-stack)
 - [Setup Instructions](#setup-instructions)
 - [Project Structure](#project-structure)
-- [Models](#models)
 - [API Endpoints](#api-endpoints)
 - [API Testing with Postman](#api-testing-with-postman)
 - [API Documentation (Swagger UI)](#api-documentation-swagger-ui)
+- [Monitoring & Observability](#monitoring-&-observability)
 - [Run This Project via Docker](#run-this-project-via-docker)
+- [Working On](#working-on)
 - [Future Work](#future-work)
 - [Maintainer](#maintainer)
 
@@ -24,13 +25,13 @@ Designed and implemented a fully containerized, secure, and scalable task manage
 
 ## Features
 
-- Implemented full versioned CRUD operations for Todo and nested TimingTodo endpoints
+- Implemented full URL level versioned CRUD operations for Todo and nested TimingTodo endpoints
 - Token and Session Authentication with custom permissions for controlled API access
 - Throttling configured for both anonymous and authenticated users to prevent abuse
 - Custom pagination using LimitOffsetPagination for flexible data access
 - Integrated filtering with DjangoFilterBackend, SearchFilter, and OrderingFilter
 - Nested endpoints for managing TimingTodo objects under specific Todo resources
-- Protected Swagger UI and ReDoc for interactive API docs and developer testing with authentication.
+- Secure, versioned Swagger UI and ReDoc for interactive API docs and developer testing with authentication.
 - Containerized with Docker and published to Docker Hub for seamless deployment
 - CI/CD pipeline built using GitHub Actions for automated build, test, and Docker push
 - One-command setup with docker-compose to run the full app with no local config
@@ -158,32 +159,6 @@ drf_learning/
 
 ---
 
-## Models 
-#### `Todo`
-
-| Field             | Type      | Description                       |
-|-------------------|-----------|-----------------------------------|
-| `uid`             | UUID      | Unique identifier (primary key)   |
-| `user`            | FK        | Linked authenticated user         |
-| `todo_title`      | CharField | Short title of the task           |
-| `todo_description`| TextField | Detailed description              |
-| `is_done`         | Boolean   | Completion status (default: False)|
-| `created_at`      | Date      | Auto-updated on creation          |
-| `updated_at`      | Date      | Auto-updated on each save         |
-
-#### `TimingTodo`
-
-| Field           | Type      | Description                |
-| --------------- | --------- | -------------------------- |
-| `uid`           | UUID      | Unique ID for timing entry |
-| `todo`          | FK        | Related `Todo`             |
-| `schedule_date` | Date      | Date the task is scheduled |
-| `start_time`    | Time      | Optional start time        |
-| `end_time`      | Time      | Optional end time          |
-| `note`          | TextField | Additional notes           |
-
----
-
 ## API Endpoints
 
 #### 📌 Todo Endpoints
@@ -263,6 +238,31 @@ This **Task Track (Todo) API** project is integrated with **Swagger UI** for eas
 
 ---
 
+## Monitoring & Observability
+To ensure reliability and performance, this To-Do application includes a complete monitoring and visualization setup powered by Prometheus and Grafana.
+
+### Prometheus
+
+- Collects real-time metrics from the Django application and Celery workers.
+- Tracks key indicators such as request rates, response codes, latency, and scheduled reminder executions.
+
+### Grafana Dashboards
+
+- Visualizes metrics through intuitive dashboards with graphs, tables, and gauges.
+- Offers deep insights into:
+  - HTTP requests and responses (by method, status, and view)
+  - Request latency (average and percentile distributions)
+  - Celery task execution, success/failure rates, and reminder scheduling
+
+### Dashboard Previews
+
+Below are example screenshots from the monitoring setup for the To-Do app:
+
+
+
+
+---
+
 ## Run This Project via Docker
 
 #### 🚀 You can pull and run this API directly from Docker Hub:
@@ -291,17 +291,20 @@ You can find the published image here:
 👉 [proma93/drf_learning-web](https://hub.docker.com/r/proma93/drf_learning-web)
 
 ---
+## Working On
 
+- Implementing Celery with Redis to manage background tasks, enabling features like periodic reminders for task creation and due dates.
+- Integrating Flower for real-time Celery task monitoring and management.
+- Setting up observability stack with Prometheus/Grafana for metrics visualization and performance monitoring.
+
+  
 ## Future Work
 
-- **API Versioning**: Implement versioned endpoints (e.g., `/api/v1/`) to support long-term maintainability and backward compatibility.
-- **Async Tasks with Celery**: Integrate Celery with Redis to handle background tasks such as email notifications or periodic reminders.
 - **Role-Based Access Control (RBAC)**: Add user roles (admin, manager, user) with scoped permissions for finer-grained access control.
 - **Improve Test Coverage**: Expand unit and integration tests using `pytest`, aiming for high coverage and reliability in edge cases.
 - **Production-Ready Deployment**: Set up deployment using Gunicorn + Nginx with Docker, along with HTTPS (Let's Encrypt) and environment hardening.
 - **Monitoring and Logging**: Integrate Sentry for error tracking and Prometheus/Grafana for metrics and observability.
 - **Use PostgreSQL**: Switch to PostgreSQL for better performance, reliability, and advanced DB features over SQLite.
-- **Staging Environment**: Create a parallel staging environment to test new features before pushing to production.
 
 ---
 
