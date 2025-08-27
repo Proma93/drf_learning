@@ -256,6 +256,12 @@ To ensure reliability and performance, this To-Do application includes a complet
 
 ### Dashboard Previews
 
+Below are example screenshots from the monitoring setup for the To-Do app:
+
+
+
+
+---
 
 ## Run This Project via Docker
 
