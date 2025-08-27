@@ -62,6 +62,7 @@ schema_view_v2 = build_schema_view('v2', v2_patterns)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('django_prometheus.urls')),
     
     # API versions
     path("api/v1/", include((v1_patterns, "v1"), namespace="v1")),

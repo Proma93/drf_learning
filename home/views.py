@@ -1,12 +1,14 @@
 import logging
-from .serializers import TodoSerializer, TimingTodoSerializer
+from .serializers import TodoSerializer, TimingTodoSerializer, ReminderSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework import status, viewsets, filters
 from .permissions import IsOwnerOrSessionOwner, IsOwnerOfRelatedTodo
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import Todo, TimingTodo
+from .models import Todo, TimingTodo, Reminder
+from .tasks import create_todo_reminder
+
 logger = logging.getLogger(__name__)
 
 class CustomPagination(LimitOffsetPagination):
@@ -51,9 +53,19 @@ class TodoModelViewSet(viewsets.ModelViewSet):
             session_key = self.request.session.session_key
 
         if user.is_authenticated:
-            serializer.save(user=user)
+            todo = serializer.save(user=user)
         else:
-            serializer.save(session_key=session_key)    
+            todo = serializer.save(session_key=session_key)
+
+        # Trigger background reminder creation
+        create_todo_reminder.delay(todo.uid)  
+
+    @action(detail=True, methods=['get'], url_path='reminders')
+    def list_reminders(self, request, uid=None):
+        todo = self.get_object()
+        reminders = Reminder.objects.filter(todo=todo)
+        serializer = ReminderSerializer(reminders, many=True)
+        return Response(serializer.data)
 
     @action(detail=True, methods=['get', 'post'], url_path='timings')
     def handle_specific_todo_timings(self, request, uid=None):
@@ -170,3 +182,17 @@ class TimingsModelViewSet(viewsets.ModelViewSet):
         if user.is_authenticated:
             return TimingTodo.objects.filter(todo__user=user)
         return TimingTodo.objects.filter(todo__session_key=session_key)
+    
+    from .tasks import create_todo_reminder
+
+    def perform_create(self, serializer):
+        timing_todo = serializer.save()
+        # Trigger async reminder creation
+        create_todo_reminder.delay(str(timing_todo.todo.uid))
+        
+    @action(detail=True, methods=['get'], url_path='reminders')
+    def list_reminders(self, request, uid=None):
+        timing = self.get_object()
+        reminders = Reminder.objects.filter(todo=timing.todo)
+        serializer = ReminderSerializer(reminders, many=True)
+        return Response(serializer.data)

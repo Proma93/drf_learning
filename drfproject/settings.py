@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+from celery.schedules import crontab
 
 # Load .env file
 load_dotenv()
@@ -26,7 +27,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "fallback-secret")
 DEBUG = os.getenv("DJANGO_DEBUG", "False").lower() in ["true", "1", "yes"]
 
 # Load ALLOWED_HOSTS from .env and split by comma
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost").split(",")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,web").split(",")
 
 
 # Application definition
@@ -38,15 +39,17 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'rest_framework.authtoken',
+    "rest_framework.authtoken",
     "rest_framework",
-    'django_extensions',
+    "django_extensions",
     "home",
-    'django_filters',
-    'drf_yasg',
+    "django_filters",
+    "drf_yasg",
+    "django_prometheus",
 ]
 
 MIDDLEWARE = [
+    "django_prometheus.middleware.PrometheusBeforeMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -54,6 +57,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_prometheus.middleware.PrometheusAfterMiddleware",
 ]
 
 ROOT_URLCONF = "drfproject.urls"
@@ -191,3 +195,17 @@ REST_FRAMEWORK = {
 
 # Optional: Make sessions expire when the browser closes (for anonymous users)
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Redis as broker
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+CELERY_BEAT_SCHEDULE = {
+    'check-due-todos-every-5-min': {
+        'task': 'home.tasks.mark_due_todos',
+        'schedule': crontab(minute='*/5'),  # every 5 minutes
+    },
+}

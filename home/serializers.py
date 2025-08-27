@@ -1,7 +1,7 @@
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Todo, TimingTodo
+from .models import Todo, TimingTodo, Reminder
 import re
 
 class TimingTodoSerializer(serializers.ModelSerializer):
@@ -48,3 +48,8 @@ class TodoSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("todo_title cannot contain special characters.")
 
         return data
+
+class ReminderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reminder
+        fields = ['uid', 'todo', 'message', 'created_at', 'is_sent']

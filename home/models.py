@@ -2,7 +2,6 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
 class BaseModel(models.Model):
     uid = models.UUIDField(primary_key=True, editable=False, default=uuid.uuid4)
     created_at = models.DateField(auto_now_add=True)
@@ -27,3 +26,12 @@ class TimingTodo(BaseModel):
     start_time = models.TimeField(null=True, blank=True, help_text="When the task starts")
     end_time = models.TimeField(null=True, blank=True, help_text="When the task ends")
     note = models.TextField(null=True, blank=True, help_text="Optional notes about the timing")
+
+class Reminder(BaseModel):  # inherit BaseModel for UUID + timestamps consistency
+    todo = models.ForeignKey(Todo, on_delete=models.CASCADE, related_name='reminders')
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_sent = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Reminder for {self.todo.todo_title}"        
