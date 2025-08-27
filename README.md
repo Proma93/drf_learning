@@ -15,6 +15,7 @@ Designed and implemented a fully containerized, secure, and scalable task manage
 - [API Endpoints](#api-endpoints)
 - [API Testing with Postman](#api-testing-with-postman)
 - [API Documentation (Swagger UI)](#api-documentation-swagger-ui)
+- [Monitoring & Observability](#monitoring-&-observability)
 - [Run This Project via Docker](#run-this-project-via-docker)
 - [Working On](#working-on)
 - [Future Work](#future-work)
@@ -236,6 +237,25 @@ This **Task Track (Todo) API** project is integrated with **Swagger UI** for eas
 ✅ Anyone can view and interact with the API directly through the Swagger interface when the server is running locally.
 
 ---
+
+## Monitoring & Observability
+To ensure reliability and performance, this To-Do application includes a complete monitoring and visualization setup powered by Prometheus and Grafana.
+
+### Prometheus
+
+- Collects real-time metrics from the Django application and Celery workers.
+- Tracks key indicators such as request rates, response codes, latency, and scheduled reminder executions.
+
+### Grafana Dashboards
+
+- Visualizes metrics through intuitive dashboards with graphs, tables, and gauges.
+- Offers deep insights into:
+  - HTTP requests and responses (by method, status, and view)
+  - Request latency (average and percentile distributions)
+  - Celery task execution, success/failure rates, and reminder scheduling
+
+### Dashboard Previews
+
 
 ## Run This Project via Docker
 
