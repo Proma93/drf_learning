@@ -34,7 +34,9 @@ Designed and implemented a fully containerized, secure, and scalable task manage
 - Secure, versioned Swagger UI and ReDoc for interactive API docs and developer testing with authentication.
 - Containerized with Docker and published to Docker Hub for seamless deployment
 - CI/CD pipeline built using GitHub Actions for automated build, test, and Docker push
-- One-command setup with docker-compose to run the full app with no local config
+- One-command setup with docker-compose to run the full app without local configuration
+- Implemented and integrated Prometheus and Grafana for application and task monitoring
+- Built Grafana dashboard for Django metrics, Celery tasks, and performance
 
 ---
 
@@ -297,8 +299,6 @@ You can find the published image here:
 
 - Implementing Celery with Redis to manage background tasks, enabling features like periodic reminders for task creation and due dates.
 - Integrating Flower for real-time Celery task monitoring and management.
-- Setting up observability stack with Prometheus/Grafana for metrics visualization and performance monitoring.
-
   
 ## Future Work
 
