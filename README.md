@@ -12,7 +12,6 @@ Designed and implemented a fully containerized, secure, and scalable task manage
 - [Tech Stack](#tech-stack)
 - [Setup Instructions](#setup-instructions)
 - [Project Structure](#project-structure)
-- [Models](#models)
 - [API Endpoints](#api-endpoints)
 - [API Testing with Postman](#api-testing-with-postman)
 - [API Documentation (Swagger UI)](#api-documentation-swagger-ui)
@@ -156,32 +155,6 @@ drf_learning/
     ├── urls.py             # App-level routing
     └── admin.py            # Admin site configuration
 ```
-
----
-
-## Models 
-#### `Todo`
-
-| Field             | Type      | Description                       |
-|-------------------|-----------|-----------------------------------|
-| `uid`             | UUID      | Unique identifier (primary key)   |
-| `user`            | FK        | Linked authenticated user         |
-| `todo_title`      | CharField | Short title of the task           |
-| `todo_description`| TextField | Detailed description              |
-| `is_done`         | Boolean   | Completion status (default: False)|
-| `created_at`      | Date      | Auto-updated on creation          |
-| `updated_at`      | Date      | Auto-updated on each save         |
-
-#### `TimingTodo`
-
-| Field           | Type      | Description                |
-| --------------- | --------- | -------------------------- |
-| `uid`           | UUID      | Unique ID for timing entry |
-| `todo`          | FK        | Related `Todo`             |
-| `schedule_date` | Date      | Date the task is scheduled |
-| `start_time`    | Time      | Optional start time        |
-| `end_time`      | Time      | Optional end time          |
-| `note`          | TextField | Additional notes           |
 
 ---
 
