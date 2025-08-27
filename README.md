@@ -1,7 +1,13 @@
 <h1 align="center">Task Track API using Django REST Framework </h1>
 
 <div align="justify">
-Designed and implemented a fully containerized, secure, and scalable task management REST API using Django REST Framework. Leveraged ModelViewSet, nested serializers, and DjangoFilterBackend to create a clean, DRY endpoint architecture. The API supports authenticated CRUD operations on tasks and their schedules, integrates custom permissions and request throttling for security and performance, and features interactive API documentation via Swagger UI and ReDoc UI. Implemented a robust CI/CD pipeline using GitHub Actions to automate testing, Docker image builds, and deployment to Docker Hub, ensuring continuous integration and zero-setup delivery. Deployed and distributed the app through Docker Hub, enabling anyone to run the project with a single command and no local setup overhead.
+Designed and implemented a fully containerized, secure, and scalable task management REST API using Django REST Framework. 
+Leveraged ModelViewSet, nested serializers, and DjangoFilterBackend to create a clean, DRY endpoint architecture. 
+The API supports authenticated CRUD operations on tasks and their schedules, integrates custom permissions and request throttling for security and performance, 
+and features interactive API documentation via Swagger UI and ReDoc UI. Implemented a robust CI/CD pipeline using GitHub Actions to automate testing, Docker image builds, 
+and deployment to Docker Hub, ensuring continuous integration and zero-setup delivery. Deployed and distributed the app through Docker Hub, 
+enabling anyone to run the project with a single command and no local setup overhead. Additionally, integrated Prometheus for real-time metrics collection and 
+Grafana dashboards for monitoring application performance, request rates, and system health, providing full observability.
 </div>
 
 ---
