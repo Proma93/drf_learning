@@ -15,7 +15,7 @@ Designed and implemented a fully containerized, secure, and scalable task manage
 - [API Endpoints](#api-endpoints)
 - [API Testing with Postman](#api-testing-with-postman)
 - [API Documentation (Swagger UI)](#api-documentation-swagger-ui)
-- [Monitoring & Observability](#monitoring-&-observability)
+- [Monitoring & Observability](#monitoring--observability)
 - [Run This Project via Docker](#run-this-project-via-docker)
 - [Working On](#working-on)
 - [Future Work](#future-work)
@@ -239,12 +239,17 @@ This **Task Track (Todo) API** project is integrated with **Swagger UI** for eas
 ---
 
 ## Monitoring & Observability
-To ensure reliability and performance, this To-Do application includes a complete monitoring and visualization setup powered by Prometheus and Grafana.
+To ensure reliability and performance, this Task Track application includes a complete monitoring and visualization setup powered by Prometheus and Grafana.
+Below are example screenshots from the monitoring setup for the Task Track app:
 
 ### Prometheus
 
 - Collects real-time metrics from the Django application and Celery workers.
 - Tracks key indicators such as request rates, response codes, latency, and scheduled reminder executions.
+- **Prometheus Targets**
+  ![Prometheus Targets](static/images/prometheus_targets.png)  
+  *Figure 1: Prometheus successfully scraping metrics from Django app, Celery worker, and Prometheus server.*
+
 
 ### Grafana Dashboards
 
@@ -253,12 +258,9 @@ To ensure reliability and performance, this To-Do application includes a complet
   - HTTP requests and responses (by method, status, and view)
   - Request latency (average and percentile distributions)
   - Celery task execution, success/failure rates, and reminder scheduling
-
-### Dashboard Previews
-
-Below are example screenshots from the monitoring setup for the To-Do app:
-
-
+- **Grafana Overview**
+  ![Grafana Overview](static/images/grafana_django_dashboard.png)  
+  *Figure 2: High-level overview of Task Track app performance metrics.*
 
 
 ---
